@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}} - EnvSwitch</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1><a href="/" style="color: white; text-decoration: none;">EnvSwitch</a></h1>
+            </div>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/projects">项目管理</a>
+                <a href="/api/status">状态</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="/projects">项目管理</a> / 
+            <a href="/projects/{{.project.ID}}">{{.project.Name}}</a> / 
+            {{.environment.Name}}
+        </div>
+
+        <div class="environment-header">
+            <div class="env-info">
+                <h2>{{.environment.Name}}</h2>
+                <p class="env-description">{{.environment.Description}}</p>
+                <div class="env-status-badge">
+                    {{if .environment.LastSwitchAt}}
+                        <span class="status-active">当前激活环境</span>
+                    {{else}}
+                        <span class="status-inactive">未激活</span>
+                    {{end}}
+                </div>
+                <div class="env-tags">
+                    {{range .environment.Tags}}
+                        <span class="tag">{{.}}</span>
+                    {{end}}
+                </div>
+                <div class="env-meta">
+                    <span>创建时间: {{.environment.CreatedAt.Format "2006-01-02 15:04:05"}}</span>
+                    <span>更新时间: {{.environment.UpdatedAt.Format "2006-01-02 15:04:05"}}</span>
+                    {{if .environment.LastSwitchAt}}
+                        <span>最后切换: {{.environment.LastSwitchAt.Format "2006-01-02 15:04:05"}}</span>
+                    {{end}}
+                </div>
+            </div>
+            <div class="env-actions">
+                <button class="btn btn-primary" onclick="switchEnvironment()">切换到此环境</button>
+                <button class="btn btn-secondary" onclick="addFileConfig()">添加文件配置</button>
+            </div>
+        </div>
+
+        <!-- 添加文件配置表单 -->
+        <div id="add-file-form" class="form-panel" style="display: none;">
+            <h3>添加文件配置</h3>
+            <form id="file-form">
+                <div class="form-group">
+                    <label for="source-path">源文件路径 *</label>
+                    <input type="text" id="source-path" name="source_path" required placeholder="例如: ./config/dev.json">
+                    <small>模板文件的路径，这个文件将被复制到目标位置</small>
+                </div>
+                <div class="form-group">
+                    <label for="target-path">目标文件路径 *</label>
+                    <input type="text" id="target-path" name="target_path" required placeholder="例如: ./app/config.json">
+                    <small>目标文件的路径，源文件将复制到这个位置</small>
+                </div>
+                <div class="form-group">
+                    <label for="file-description">描述</label>
+                    <textarea id="file-description" name="description" rows="2" placeholder="输入文件配置描述（可选）"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">添加</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideAddFileForm()">取消</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 文件配置列表 -->
+        <div class="files-section">
+            <h3>文件配置 ({{len .environment.Files}} 个)</h3>
+            {{if .environment.Files}}
+                <div class="files-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>源文件路径</th>
+                                <th>目标文件路径</th>
+                                <th>描述</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range .environment.Files}}
+                            <tr>
+                                <td><code>{{.SourcePath}}</code></td>
+                                <td><code>{{.TargetPath}}</code></td>
+                                <td>{{.Description}}</td>
+                                <td>
+                                    <button class="btn btn-small btn-danger" onclick="deleteFileConfig('{{.ID}}')">删除</button>
+                                </td>
+                            </tr>
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            {{else}}
+                <div class="empty-state">
+                    <h4>暂无文件配置</h4>
+                    <p>该环境还没有添加任何文件配置，点击上方的"添加文件配置"按钮开始。</p>
+                    <button class="btn btn-primary" onclick="addFileConfig()">添加第一个文件配置</button>
+                </div>
+            {{end}}
+        </div>
+
+        <!-- 切换历史 -->
+        <div class="history-section">
+            <h3>切换历史</h3>
+            {{if .environment.LastSwitchAt}}
+                <div class="history-item">
+                    <div class="history-content">
+                        <strong>最后一次切换</strong>
+                        <span class="history-time">{{.environment.LastSwitchAt.Format "2006-01-02 15:04:05"}}</span>
+                    </div>
+                </div>
+            {{else}}
+                <div class="empty-state">
+                    <p>该环境从未被切换过</p>
+                </div>
+            {{end}}
+        </div>
+    </main>
+
+    <!-- 消息提示 -->
+    <div id="message" class="message" style="display: none;"></div>
+
+    <script>
+        const projectId = '{{.project.ID}}';
+        const environmentId = '{{.environment.ID}}';
+
+        // 切换到此环境
+        function switchEnvironment() {
+            if (confirm('确定要切换到环境 "{{.environment.Name}}" 吗？')) {
+                const data = {
+                    project_id: projectId,
+                    environment_id: environmentId
+                };
+
+                fetch('/api/switch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        showMessage('环境切换成功', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showMessage(result.error || '切换失败', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('切换失败: ' + error.message, 'error');
+                });
+            }
+        }
+
+        // 显示添加文件配置表单
+        function addFileConfig() {
+            document.getElementById('add-file-form').style.display = 'block';
+            document.getElementById('source-path').focus();
+        }
+
+        // 隐藏添加文件配置表单
+        function hideAddFileForm() {
+            document.getElementById('add-file-form').style.display = 'none';
+            document.getElementById('file-form').reset();
+        }
+
+        // 删除文件配置
+        function deleteFileConfig(fileId) {
+            if (confirm('确定要删除这个文件配置吗？')) {
+                fetch('/api/files/' + fileId, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        showMessage('文件配置删除成功', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showMessage(result.error || '删除失败', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('删除失败: ' + error.message, 'error');
+                });
+            }
+        }
+
+        // 显示消息
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = 'message ' + type;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // 添加文件配置表单提交
+        document.getElementById('file-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                source_path: formData.get('source_path'),
+                target_path: formData.get('target_path'),
+                description: formData.get('description')
+            };
+
+            fetch('/api/environments/' + environmentId + '/files', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.message) {
+                    showMessage('文件配置添加成功', 'success');
+                    hideAddFileForm();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showMessage(result.error || '添加失败', 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('添加失败: ' + error.message, 'error');
+            });
+        });
+    </script>
+
+    <style>
+        .environment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .env-status-badge {
+            margin: 1rem 0;
+        }
+
+        .files-section, .history-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .files-table {
+            overflow-x: auto;
+        }
+
+        .files-table code {
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .history-content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .history-time {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.25rem;
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+    </style>
+</body>
+</html> 

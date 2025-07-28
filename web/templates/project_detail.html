@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}} - EnvSwitch</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1><a href="/" style="color: white; text-decoration: none;">EnvSwitch</a></h1>
+            </div>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/projects">项目管理</a>
+                <a href="/api/status">状态</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="/projects">项目管理</a> / {{.project.Name}}
+        </div>
+
+        <div class="project-header">
+            <div class="project-info">
+                <h2>{{.project.Name}}</h2>
+                <p class="project-description">{{.project.Description}}</p>
+                <div class="project-meta">
+                    <span>创建时间: {{.project.CreatedAt.Format "2006-01-02 15:04:05"}}</span>
+                    <span>更新时间: {{.project.UpdatedAt.Format "2006-01-02 15:04:05"}}</span>
+                    <span>环境数量: {{len .project.Environments}}</span>
+                </div>
+            </div>
+            <div class="project-actions">
+                <button class="btn btn-primary" onclick="showCreateEnvForm()">创建环境</button>
+                <button class="btn btn-secondary" onclick="editProject()">编辑项目</button>
+            </div>
+        </div>
+
+        <!-- 创建环境表单 -->
+        <div id="create-env-form" class="form-panel" style="display: none;">
+            <h3>创建新环境</h3>
+            <form id="env-form">
+                <div class="form-group">
+                    <label for="env-name">环境名称 *</label>
+                    <input type="text" id="env-name" name="name" required placeholder="例如: dev, test, prod">
+                </div>
+                <div class="form-group">
+                    <label for="env-description">环境描述</label>
+                    <textarea id="env-description" name="description" rows="3" placeholder="输入环境描述（可选）"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="env-tags">标签</label>
+                    <input type="text" id="env-tags" name="tags" placeholder="用逗号分隔，例如: development,local">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">创建</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideCreateEnvForm()">取消</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 环境列表 -->
+        <div class="environments-section">
+            <h3>环境列表</h3>
+            {{if .project.Environments}}
+                <div class="environments-grid">
+                    {{range .project.Environments}}
+                    <div class="environment-card">
+                        <div class="env-header">
+                            <h4>{{.Name}}</h4>
+                            <div class="env-status">
+                                {{if .LastSwitchAt}}
+                                    <span class="status-active">激活</span>
+                                {{else}}
+                                    <span class="status-inactive">未激活</span>
+                                {{end}}
+                            </div>
+                        </div>
+                        <p class="env-description">{{.Description}}</p>
+                        <div class="env-tags">
+                            {{range .Tags}}
+                                <span class="tag">{{.}}</span>
+                            {{end}}
+                        </div>
+                        <div class="env-meta">
+                            <span>文件: {{len .Files}} 个</span>
+                            {{if .LastSwitchAt}}
+                                <span>最后切换: {{.LastSwitchAt.Format "2006-01-02 15:04"}}</span>
+                            {{end}}
+                        </div>
+                        <div class="env-actions">
+                            <button class="btn btn-small btn-primary" onclick="switchEnvironment('{{$.project.ID}}', '{{.ID}}', '{{.Name}}')">切换</button>
+                            <button class="btn btn-small btn-outline" onclick="viewEnvironment('{{.ID}}')">详情</button>
+                            <button class="btn btn-small btn-secondary" onclick="editEnvironment('{{.ID}}', '{{.Name}}', '{{.Description}}', '')">编辑</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteEnvironment('{{.ID}}', '{{.Name}}')">删除</button>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            {{else}}
+                <div class="empty-state">
+                    <h4>暂无环境</h4>
+                    <p>该项目还没有创建任何环境，点击上方的"创建环境"按钮开始。</p>
+                    <button class="btn btn-primary" onclick="showCreateEnvForm()">创建第一个环境</button>
+                </div>
+            {{end}}
+        </div>
+    </main>
+
+    <!-- 消息提示 -->
+    <div id="message" class="message" style="display: none;"></div>
+
+    <script>
+        const projectId = '{{.project.ID}}';
+
+        // 显示创建环境表单
+        function showCreateEnvForm() {
+            document.getElementById('create-env-form').style.display = 'block';
+            document.getElementById('env-name').focus();
+        }
+
+        // 隐藏创建环境表单
+        function hideCreateEnvForm() {
+            document.getElementById('create-env-form').style.display = 'none';
+            document.getElementById('env-form').reset();
+        }
+
+        // 切换环境
+        function switchEnvironment(projectId, envId, envName) {
+            if (confirm('确定要切换到环境 "' + envName + '" 吗？')) {
+                const data = {
+                    project_id: projectId,
+                    environment_id: envId
+                };
+
+                fetch('/api/switch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        showMessage('环境切换成功', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showMessage(result.error || '切换失败', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('切换失败: ' + error.message, 'error');
+                });
+            }
+        }
+
+        // 查看环境详情
+        function viewEnvironment(envId) {
+            window.location.href = '/environments/' + envId;
+        }
+
+        // 编辑环境
+        function editEnvironment(envId, name, description, tags) {
+            // 这里可以实现编辑环境的模态框
+            const newName = prompt('环境名称:', name);
+            if (newName && newName !== name) {
+                const data = { name: newName };
+                
+                fetch('/api/environments/' + envId, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.id) {
+                        showMessage('环境更新成功', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showMessage(result.error || '更新失败', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('更新失败: ' + error.message, 'error');
+                });
+            }
+        }
+
+        // 删除环境
+        function deleteEnvironment(envId, envName) {
+            if (confirm('确定要删除环境 "' + envName + '" 吗？此操作不可撤销。')) {
+                fetch('/api/environments/' + envId, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.message) {
+                        showMessage('环境删除成功', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showMessage(result.error || '删除失败', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('删除失败: ' + error.message, 'error');
+                });
+            }
+        }
+
+        // 编辑项目
+        function editProject() {
+            window.location.href = '/projects';
+        }
+
+        // 显示消息
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = 'message ' + type;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // 创建环境表单提交
+        document.getElementById('env-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const tags = formData.get('tags').split(',').map(tag => tag.trim()).filter(tag => tag);
+            const data = {
+                name: formData.get('name'),
+                description: formData.get('description'),
+                tags: tags
+            };
+
+            fetch('/api/projects/' + projectId + '/environments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.id) {
+                    showMessage('环境创建成功', 'success');
+                    hideCreateEnvForm();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showMessage(result.error || '创建失败', 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('创建失败: ' + error.message, 'error');
+            });
+        });
+    </script>
+</body>
+</html> 

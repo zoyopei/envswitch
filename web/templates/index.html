@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}}</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>EnvSwitch</h1>
+            </div>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/projects">项目管理</a>
+                <a href="/api/status">状态</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="hero">
+            <h2>环境管理切换工具</h2>
+            <p>轻松管理多项目、多环境配置，快速切换不同环境的配置文件。</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>项目管理</h3>
+                <p>创建、编辑、删除项目，每个项目可包含多个环境配置。</p>
+                <a href="/projects" class="btn btn-primary">管理项目</a>
+            </div>
+
+            <div class="feature-card">
+                <h3>环境切换</h3>
+                <p>快速切换环境配置，自动备份和恢复文件。</p>
+                <button class="btn btn-secondary" onclick="showStatus()">查看状态</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>API接口</h3>
+                <p>提供完整的REST API，支持程序化管理。</p>
+                <a href="/api" class="btn btn-outline">API文档</a>
+            </div>
+        </div>
+
+        <div id="status-info" class="status-panel" style="display: none;">
+            <h3>当前状态</h3>
+            <div id="status-content">加载中...</div>
+        </div>
+    </main>
+
+    <script>
+        function showStatus() {
+            const panel = document.getElementById('status-info');
+            const content = document.getElementById('status-content');
+            
+            panel.style.display = 'block';
+            
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.current_project) {
+                        content.innerHTML = `
+                            <p><strong>当前项目:</strong> ${data.current_project}</p>
+                            <p><strong>当前环境:</strong> ${data.current_environment}</p>
+                            <p><strong>最后切换时间:</strong> ${data.last_switch_at || '无'}</p>
+                        `;
+                    } else {
+                        content.innerHTML = '<p>当前没有激活的环境</p>';
+                    }
+                })
+                .catch(error => {
+                    content.innerHTML = '<p>加载状态失败</p>';
+                });
+        }
+    </script>
+</body>
+</html> 

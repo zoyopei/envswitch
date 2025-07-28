@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# Test files
+*_test.go
+test/
+coverage.out
+
+# Build artifacts
+envswitch
+envswitch.exe
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Config files (may contain sensitive data)
+config.json
+data/
+backups/
+
+# Temporary files
+*.tmp
+*.log 
