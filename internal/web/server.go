@@ -1,10 +1,11 @@
 package web
 
 import (
-	"envswitch/internal"
-	"envswitch/internal/file"
-	"envswitch/internal/project"
 	"net/http"
+
+	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/EnvSwitch/internal/file"
+	"github.com/zoyopei/EnvSwitch/internal/project"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"

@@ -1,12 +1,13 @@
 package storage
 
 import (
-	"envswitch/internal"
-	"envswitch/internal/config"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
+
+	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/EnvSwitch/internal/config"
 )
 
 func setupStorageTest(t *testing.T) *Storage {

@@ -2,11 +2,12 @@ package storage
 
 import (
 	"encoding/json"
-	"envswitch/internal"
-	"envswitch/internal/config"
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/EnvSwitch/internal/config"
 )
 
 type Storage struct {

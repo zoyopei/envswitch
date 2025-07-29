@@ -1,10 +1,11 @@
 package project
 
 import (
-	"envswitch/internal"
-	"envswitch/internal/storage"
 	"fmt"
 	"time"
+
+	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/EnvSwitch/internal/storage"
 
 	"github.com/google/uuid"
 )

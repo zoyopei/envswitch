@@ -14,7 +14,7 @@ var rootCmd = &cobra.Command{
 It allows you to quickly switch between different environment configurations
 by replacing files in your system according to predefined configurations.
 
-Complete documentation is available at https://github.com/your-org/envswitch`,
+Complete documentation is available at https://github.com/zoyopei/EnvSwitch`,
 	Run: func(cmd *cobra.Command, _ []string) {
 		_ = cmd.Help()
 	},

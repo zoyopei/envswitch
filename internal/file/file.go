@@ -1,14 +1,15 @@
 package file
 
 import (
-	"envswitch/internal"
-	"envswitch/internal/config"
-	"envswitch/internal/storage"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/EnvSwitch/internal/storage"
 
 	"github.com/google/uuid"
 )

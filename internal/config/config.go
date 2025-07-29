@@ -2,10 +2,11 @@ package config
 
 import (
 	"encoding/json"
-	"envswitch/internal"
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"github.com/zoyopei/EnvSwitch/internal"
 )
 
 const (

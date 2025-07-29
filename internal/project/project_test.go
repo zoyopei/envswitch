@@ -1,11 +1,12 @@
 package project
 
 import (
-	"envswitch/internal"
-	"envswitch/internal/config"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/EnvSwitch/internal/config"
 )
 
 func setupTest(t *testing.T) (*Manager, string) {

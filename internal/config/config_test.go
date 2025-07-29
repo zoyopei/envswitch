@@ -1,9 +1,10 @@
 package config
 
 import (
-	"envswitch/internal"
 	"os"
 	"testing"
+
+	"github.com/zoyopei/EnvSwitch/internal"
 )
 
 func TestInitConfig(t *testing.T) {

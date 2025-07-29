@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"context"
-	"envswitch/internal/config"
-	"envswitch/internal/web"
 	"fmt"
 	"net/http"
 	"os"
@@ -11,6 +9,9 @@ import (
 	"strconv"
 	"syscall"
 	"time"
+
+	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/EnvSwitch/internal/web"
 
 	"github.com/spf13/cobra"
 )

@@ -3,15 +3,16 @@ package test
 import (
 	"bytes"
 	"encoding/json"
-	"envswitch/internal"
-	"envswitch/internal/config"
-	"envswitch/internal/web"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/EnvSwitch/internal/web"
 )
 
 func setupIntegrationTest(t *testing.T) (*web.Server, string) {

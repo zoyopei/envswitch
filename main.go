@@ -1,10 +1,11 @@
 package main
 
 import (
-	"envswitch/cmd"
-	"envswitch/internal/config"
 	"fmt"
 	"os"
+
+	"github.com/zoyopei/EnvSwitch/cmd"
+	"github.com/zoyopei/EnvSwitch/internal/config"
 )
 
 func main() {

@@ -1,11 +1,12 @@
 package cmd
 
 import (
-	"envswitch/internal/config"
-	"envswitch/internal/project"
 	"fmt"
 	"os"
 	"text/tabwriter"
+
+	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/EnvSwitch/internal/project"
 
 	"github.com/spf13/cobra"
 )
