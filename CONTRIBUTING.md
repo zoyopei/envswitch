@@ -253,7 +253,6 @@ go tool cover -html=coverage.out
 1. 创建带有版本号的 Git 标签（如 `v1.0.0`）
 2. GitHub Actions 自动构建多平台二进制文件
 3. 创建 GitHub Release
-4. 构建和推送 Docker 镜像
 
 ## 获得帮助
 
@@ -261,7 +260,7 @@ go tool cover -html=coverage.out
 
 1. 查看现有的 Issues 和 Discussions
 2. 创建新的 Discussion 询问问题
-3. 发送邮件至 [support@example.com](mailto:support@example.com)
+3. 发送邮件至 [zoyopei@gmail.com](mailto:zoyopei@gmail.com)
 
 ## 致谢
 

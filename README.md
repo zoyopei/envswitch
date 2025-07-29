@@ -5,7 +5,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/zoyopei/EnvSwitch)](https://goreportcard.com/report/github.com/zoyopei/EnvSwitch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub release](https://img.shields.io/github/release/zoyopei/EnvSwitch.svg)](https://github.com/zoyopei/EnvSwitch/releases)
-[![Docker Pulls](https://img.shields.io/docker/pulls/ghcr.io/zoyopei/envswitch)](https://github.com/zoyopei/EnvSwitch/pkgs/container/envswitch)
 
 一个用Go语言实现的环境管理切换命令行工具，支持多项目、多环境配置管理，可以快速切换不同环境的配置文件。同时提供Web界面进行可视化管理。
 
@@ -35,18 +34,6 @@ curl -sfL https://github.com/zoyopei/EnvSwitch/releases/latest/download/install.
 
 ### 下载预编译二进制文件
 从 [Releases](https://github.com/zoyopei/EnvSwitch/releases) 页面下载适合您系统的二进制文件。
-
-### 使用 Docker
-```bash
-# 拉取镜像
-docker pull ghcr.io/zoyopei/envswitch:latest
-
-# 运行容器
-docker run -d -p 8080:8080 \
-  -v $(pwd)/data:/home/envswitch/data \
-  -v $(pwd)/backups:/home/envswitch/backups \
-  ghcr.io/zoyopei/envswitch:latest
-```
 
 ### 从源码构建
 ```bash
@@ -431,13 +418,12 @@ make format
 - **CI**: 自动运行测试、代码检查和构建
 - **Release**: 自动构建多平台二进制文件并发布
 - **CodeQL**: 安全代码分析
-- **Docker**: 自动构建和推送 Docker 镜像
 
 ## 🔒 安全
 
 ### 漏洞报告
 
-如果您发现安全漏洞，请不要在公开的 GitHub Issues 中报告。请发送邮件至：[security@example.com](mailto:security@example.com)
+如果您发现安全漏洞，请不要在公开的 GitHub Issues 中报告。请发送邮件至：[zoyopei@gmail.com](mailto:zoyopei@gmail.com)
 
 ### 安全特性
 
@@ -470,7 +456,7 @@ make format
 - 📚 [文档](https://github.com/zoyopei/EnvSwitch/wiki)
 - 🐛 [问题反馈](https://github.com/zoyopei/EnvSwitch/issues)
 - 💬 [讨论](https://github.com/zoyopei/EnvSwitch/discussions)
-- 📫 [邮件支持](mailto:support@example.com)
+- 📫 [邮件支持](mailto:zoyopei@gmail.com)
 
 ---
 

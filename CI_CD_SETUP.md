@@ -18,8 +18,6 @@ EnvSwitch/
 │   └── dependabot.yml          # 依赖自动更新
 ├── scripts/
 │   └── install.sh              # 一键安装脚本
-├── Dockerfile                  # Docker镜像构建
-├── .dockerignore              # Docker忽略文件
 ├── .gitignore                 # Git忽略文件
 ├── .golangci.yml              # Go代码检查配置
 ├── Makefile                   # 构建脚本
@@ -61,7 +59,6 @@ EnvSwitch/
 - ✅ **创建压缩包**: tar.gz (Linux/macOS) 和 zip (Windows)
 - ✅ **生成校验和**: SHA256 校验文件
 - ✅ **自动发布**: 创建 GitHub Release
-- ✅ **Docker镜像**: 构建并推送到 GitHub Container Registry
 
 ### 3. 代码安全分析 (CodeQL) - `.github/workflows/codeql.yml`
 
@@ -111,7 +108,6 @@ EnvSwitch/
    - GitHub Actions 自动检测到标签推送
    - 运行完整的测试套件
    - 构建多平台二进制文件
-   - 创建 Docker 镜像
    - 发布 GitHub Release
 
 ### 版本命名规范
@@ -136,10 +132,6 @@ EnvSwitch/
 ### 其他文件
 - `checksums.txt` - SHA256 校验和
 - `install.sh` - 一键安装脚本
-
-### Docker 镜像
-- `ghcr.io/zoyopei/envswitch:latest`
-- `ghcr.io/zoyopei/envswitch:v1.0.0`
 
 ## 🔧 本地开发工作流
 
@@ -166,9 +158,6 @@ make format
 
 # 跨平台构建
 make cross-compile
-
-# 构建 Docker 镜像
-make docker
 
 # 创建发布包
 make release
@@ -222,7 +211,6 @@ GOOS=linux GOARCH=amd64 go build -o envswitch-linux-amd64 .
 ### Dependabot 配置
 - **Go模块**: 每周一自动检查更新
 - **GitHub Actions**: 每周一检查新版本
-- **Docker基础镜像**: 每周一检查更新
 
 ### 手动更新
 ```bash

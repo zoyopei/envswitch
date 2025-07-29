@@ -1,6 +1,6 @@
 # EnvSwitch Makefile
 
-.PHONY: all build test clean install docker help
+.PHONY: all build test clean install help
 
 # Build variables
 BINARY_NAME=envswitch
@@ -73,20 +73,6 @@ cross-compile: clean
 	@GOOS=darwin GOARCH=arm64 go build $(LDFLAGS) -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 .
 	
 	@echo "Cross-compilation completed. Binaries are in $(BUILD_DIR)/"
-
-## Docker: Build Docker image
-docker:
-	@echo "Building Docker image..."
-	@docker build -t ghcr.io/zoyopei/envswitch:latest .
-	@docker build -t ghcr.io/zoyopei/envswitch:$(VERSION) .
-
-## Docker-run: Run Docker container
-docker-run:
-	@echo "Running Docker container..."
-	@docker run -d -p 8080:8080 \
-		-v $(PWD)/data:/home/envswitch/data \
-		-v $(PWD)/backups:/home/envswitch/backups \
-		ghcr.io/zoyopei/envswitch:latest
 
 ## Release: Create release archives
 release: cross-compile

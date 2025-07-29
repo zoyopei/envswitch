@@ -31,20 +31,4 @@ updates:
       - "zoyopei"
     commit-message:
       prefix: "ci"
-      include: "scope"
-      
-  # Enable version updates for Docker
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 5
-    reviewers:
-      - "zoyopei"
-    assignees:
-      - "zoyopei"
-    commit-message:
-      prefix: "docker"
       include: "scope" 
