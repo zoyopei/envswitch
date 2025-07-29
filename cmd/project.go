@@ -5,8 +5,8 @@ import (
 	"os"
 	"text/tabwriter"
 
-	"github.com/zoyopei/EnvSwitch/internal/config"
-	"github.com/zoyopei/EnvSwitch/internal/project"
+	"github.com/zoyopei/envswitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/project"
 
 	"github.com/spf13/cobra"
 )
@@ -135,8 +135,46 @@ var projectDeleteCmd = &cobra.Command{
 	},
 }
 
+var projectUpdateCmd = &cobra.Command{
+	Use:   "update <n>",
+	Short: "Update a project",
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		identifier := args[0]
+		name, _ := cmd.Flags().GetString("name")
+		description, _ := cmd.Flags().GetString("description")
+
+		// 检查是否至少有一个更新字段
+		if name == "" && description == "" {
+			fmt.Println("Error: At least one of --name or --description must be provided")
+			return
+		}
+
+		manager := project.NewManager()
+
+		// 构建更新映射
+		updates := make(map[string]interface{})
+		if name != "" {
+			updates["name"] = name
+		}
+		if description != "" {
+			updates["description"] = description
+		}
+
+		proj, err := manager.UpdateProject(identifier, updates)
+		checkError(err)
+
+		fmt.Printf("Project '%s' updated successfully\n", proj.Name)
+
+		// 显示更新后的信息
+		fmt.Printf("  Name: %s\n", proj.Name)
+		fmt.Printf("  Description: %s\n", proj.Description)
+		fmt.Printf("  Updated: %s\n", proj.UpdatedAt.Format("2006-01-02 15:04:05"))
+	},
+}
+
 var projectSetDefaultCmd = &cobra.Command{
-	Use:   "set-default <name>",
+	Use:   "set-default <n>",
 	Short: "Set the default project",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -162,12 +200,17 @@ func init() {
 	// project delete
 	projectDeleteCmd.Flags().BoolP("force", "f", false, "Force delete without confirmation")
 
+	// project update
+	projectUpdateCmd.Flags().StringP("name", "n", "", "New project name")
+	projectUpdateCmd.Flags().StringP("description", "d", "", "New project description")
+
 	// 添加子命令
 	projectCmd.AddCommand(projectCreateCmd)
 	projectCmd.AddCommand(projectListCmd)
 	projectCmd.AddCommand(projectShowCmd)
 	projectCmd.AddCommand(projectDeleteCmd)
 	projectCmd.AddCommand(projectSetDefaultCmd)
+	projectCmd.AddCommand(projectUpdateCmd)
 }
 
 // 辅助函数

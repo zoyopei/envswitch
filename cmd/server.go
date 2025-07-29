@@ -10,8 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/zoyopei/EnvSwitch/internal/config"
-	"github.com/zoyopei/EnvSwitch/internal/web"
+	"github.com/zoyopei/envswitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/web"
 
 	"github.com/spf13/cobra"
 )

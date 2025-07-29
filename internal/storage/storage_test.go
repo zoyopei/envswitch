@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zoyopei/EnvSwitch/internal"
-	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/config"
 )
 
 func setupStorageTest(t *testing.T) *Storage {

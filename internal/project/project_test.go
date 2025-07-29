@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/zoyopei/EnvSwitch/internal"
-	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/config"
 )
 
 func setupTest(t *testing.T) (*Manager, string) {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/zoyopei/EnvSwitch/internal"
-	"github.com/zoyopei/EnvSwitch/internal/storage"
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/storage"
 
 	"github.com/google/uuid"
 )

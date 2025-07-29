@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/zoyopei/EnvSwitch/internal"
-	"github.com/zoyopei/EnvSwitch/internal/config"
-	"github.com/zoyopei/EnvSwitch/internal/web"
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/web"
 )
 
 func setupIntegrationTest(t *testing.T) (*web.Server, string) {
@@ -279,8 +279,8 @@ func TestWebPages(t *testing.T) {
 	if w.Code != http.StatusOK {
 		t.Errorf("Expected status code 200 for home page, got %d", w.Code)
 	}
-	if !bytes.Contains(w.Body.Bytes(), []byte("EnvSwitch")) {
-		t.Error("Home page should contain 'EnvSwitch'")
+	if !bytes.Contains(w.Body.Bytes(), []byte("envswitch")) {
+		t.Error("Home page should contain 'envswitch'")
 	}
 
 	// 测试项目管理页面

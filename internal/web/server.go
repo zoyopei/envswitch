@@ -5,9 +5,9 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/zoyopei/EnvSwitch/internal"
-	"github.com/zoyopei/EnvSwitch/internal/file"
-	"github.com/zoyopei/EnvSwitch/internal/project"
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/file"
+	"github.com/zoyopei/envswitch/internal/project"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -105,7 +105,7 @@ func (s *Server) SetupRoutes() *gin.Engine {
 // 页面处理器
 func (s *Server) indexHandler(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "EnvSwitch - Environment Management",
+		"title": "envswitch - Environment Management",
 	})
 }
 

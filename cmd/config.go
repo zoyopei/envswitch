@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/config"
 
 	"github.com/spf13/cobra"
 )
@@ -13,7 +13,7 @@ import (
 var configCmd = &cobra.Command{
 	Use:   "config",
 	Short: "管理配置设置",
-	Long:  "查看和修改 EnvSwitch 的配置设置，包括数据目录管理",
+	Long:  "查看和修改 envswitch 的配置设置，包括数据目录管理",
 }
 
 var configShowCmd = &cobra.Command{

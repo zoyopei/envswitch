@@ -1,4 +1,4 @@
-module github.com/zoyopei/EnvSwitch
+module github.com/zoyopei/envswitch
 
 go 1.21
 

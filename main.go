@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/zoyopei/EnvSwitch/cmd"
-	"github.com/zoyopei/EnvSwitch/internal/config"
+	"github.com/zoyopei/envswitch/cmd"
+	"github.com/zoyopei/envswitch/internal/config"
 )
 
 func main() {

@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/envswitch/internal"
 )
 
 func TestInitConfig(t *testing.T) {

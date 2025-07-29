@@ -3,7 +3,7 @@ package web
 import (
 	"net/http"
 
-	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/envswitch/internal"
 
 	"github.com/gin-gonic/gin"
 )

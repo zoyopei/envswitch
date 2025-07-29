@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zoyopei/EnvSwitch/internal"
+	"github.com/zoyopei/envswitch/internal"
 )
 
 const (

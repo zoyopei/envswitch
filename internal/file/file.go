@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/zoyopei/EnvSwitch/internal"
-	"github.com/zoyopei/EnvSwitch/internal/config"
-	"github.com/zoyopei/EnvSwitch/internal/storage"
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/storage"
 
 	"github.com/google/uuid"
 )
@@ -40,17 +40,19 @@ func (m *Manager) SwitchEnvironment(projectID, environmentID string) error {
 		return fmt.Errorf("failed to load project: %w", err)
 	}
 
-	var environment *internal.Environment
-	for _, env := range project.Environments {
+	var envIndex = -1
+	for i, env := range project.Environments {
 		if env.ID == environmentID {
-			environment = &env
+			envIndex = i
 			break
 		}
 	}
 
-	if environment == nil {
+	if envIndex == -1 {
 		return fmt.Errorf("environment not found: %s", environmentID)
 	}
+
+	environment := &project.Environments[envIndex]
 
 	// 执行文件切换
 	for _, fileConfig := range environment.Files {

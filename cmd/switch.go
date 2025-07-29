@@ -3,9 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/zoyopei/EnvSwitch/internal/config"
-	"github.com/zoyopei/EnvSwitch/internal/file"
-	"github.com/zoyopei/EnvSwitch/internal/project"
+	"github.com/zoyopei/envswitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/file"
+	"github.com/zoyopei/envswitch/internal/project"
 
 	"github.com/spf13/cobra"
 )
