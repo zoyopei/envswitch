@@ -19,7 +19,7 @@ var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Start the web server",
 	Long:  "Start the HTTP web server for managing environments through a web interface",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		port, _ := cmd.Flags().GetInt("port")
 		daemon, _ := cmd.Flags().GetBool("daemon")
 

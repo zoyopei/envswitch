@@ -10,13 +10,13 @@ func TestInitConfig(t *testing.T) {
 	// 创建临时目录用于测试
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil
@@ -48,13 +48,13 @@ func TestInitConfig(t *testing.T) {
 func TestLoadAndSaveConfig(t *testing.T) {
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil
@@ -97,13 +97,13 @@ func TestLoadAndSaveConfig(t *testing.T) {
 func TestUpdateConfig(t *testing.T) {
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil
@@ -138,13 +138,13 @@ func TestUpdateConfig(t *testing.T) {
 func TestSetDefaultProject(t *testing.T) {
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil

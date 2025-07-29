@@ -35,7 +35,7 @@ var projectCreateCmd = &cobra.Command{
 var projectListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all projects",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		manager := project.NewManager()
 		projects, err := manager.ListProjects()
 		checkError(err)
@@ -120,7 +120,7 @@ var projectDeleteCmd = &cobra.Command{
 			fmt.Printf("Are you sure you want to delete project '%s'? This action cannot be undone.\n", proj.Name)
 			fmt.Print("Type 'yes' to confirm: ")
 			var confirmation string
-			fmt.Scanln(&confirmation)
+			_, _ = fmt.Scanln(&confirmation)
 			if confirmation != "yes" {
 				fmt.Println("Operation cancelled")
 				return

@@ -75,7 +75,7 @@ var switchCmd = &cobra.Command{
 var statusCmd = &cobra.Command{
 	Use:   "status",
 	Short: "Show current environment status",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		fileManager := file.NewManager()
 		projectManager := project.NewManager()
 
@@ -156,7 +156,7 @@ var rollbackCmd = &cobra.Command{
 			fmt.Printf("Are you sure you want to rollback to backup '%s'?\n", backupID)
 			fmt.Print("Type 'yes' to confirm: ")
 			var confirmation string
-			fmt.Scanln(&confirmation)
+			_, _ = fmt.Scanln(&confirmation)
 			if confirmation != "yes" {
 				fmt.Println("Operation cancelled")
 				return

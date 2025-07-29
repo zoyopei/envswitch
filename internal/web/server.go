@@ -22,7 +22,7 @@ func NewServer() *Server {
 		projectManager: project.NewManager(),
 		fileManager:    file.NewManager(),
 		upgrader: websocket.Upgrader{
-			CheckOrigin: func(r *http.Request) bool {
+			CheckOrigin: func(_ *http.Request) bool {
 				return true // 在生产环境中应该有更严格的检查
 			},
 		},

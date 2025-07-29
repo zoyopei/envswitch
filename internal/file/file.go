@@ -55,7 +55,7 @@ func (m *Manager) SwitchEnvironment(projectID, environmentID string) error {
 	for _, fileConfig := range environment.Files {
 		if err := m.switchFile(&fileConfig); err != nil {
 			// 如果切换失败，尝试回滚
-			m.RollbackFromBackup(backupID)
+			_ = m.RollbackFromBackup(backupID)
 			return fmt.Errorf("failed to switch file %s: %w", fileConfig.TargetPath, err)
 		}
 	}

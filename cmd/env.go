@@ -213,7 +213,7 @@ var envDeleteCmd = &cobra.Command{
 			fmt.Printf("Are you sure you want to delete environment '%s' from project '%s'?\n", env.Name, projectName)
 			fmt.Print("Type 'yes' to confirm: ")
 			var confirmation string
-			fmt.Scanln(&confirmation)
+			_, _ = fmt.Scanln(&confirmation)
 			if confirmation != "yes" {
 				fmt.Println("Operation cancelled")
 				return
