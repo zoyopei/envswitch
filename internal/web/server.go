@@ -1,6 +1,8 @@
 package web
 
 import (
+	"embed"
+	"html/template"
 	"net/http"
 
 	"github.com/zoyopei/EnvSwitch/internal"
@@ -10,6 +12,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
+
+//go:embed templates/*
+var templateFS embed.FS
+
+//go:embed static/*
+var staticFS embed.FS
 
 type Server struct {
 	projectManager *project.Manager
@@ -37,9 +45,12 @@ func (s *Server) SetupRoutes() *gin.Engine {
 
 	r := gin.Default()
 
-	// 静态文件服务
-	r.Static("/static", "./web/static")
-	r.LoadHTMLGlob("web/templates/*")
+	// 使用嵌入的静态文件系统
+	r.StaticFS("/static", http.FS(staticFS))
+
+	// 使用嵌入的模板文件系统
+	tmpl := template.Must(template.New("").ParseFS(templateFS, "templates/*"))
+	r.SetHTMLTemplate(tmpl)
 
 	// 页面路由
 	r.GET("/", s.indexHandler)

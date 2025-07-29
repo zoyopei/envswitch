@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}} - EnvSwitch</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1><a href="/" style="color: white; text-decoration: none;">EnvSwitch</a></h1>
+            </div>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/projects" class="active">项目管理</a>
+                <a href="/api/status">状态</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h2>项目管理</h2>
+            <button class="btn btn-primary" onclick="showCreateForm()">创建项目</button>
+        </div>
+
+        <!-- 创建项目表单 -->
+        <div id="create-form" class="form-panel" style="display: none;">
+            <h3>创建新项目</h3>
+            <form id="project-form">
+                <div class="form-group">
+                    <label for="project-name">项目名称 *</label>
+                    <input type="text" id="project-name" name="name" required placeholder="输入项目名称">
+                </div>
+                <div class="form-group">
+                    <label for="project-description">项目描述</label>
+                    <textarea id="project-description" name="description" rows="3" placeholder="输入项目描述（可选）"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">创建</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideCreateForm()">取消</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 项目列表 -->
+        <div class="projects-container">
+            {{if .projects}}
+                <div class="projects-grid">
+                    {{range .projects}}
+                    <div class="project-card" onclick="viewProject('{{.ID}}')">
+                        <h3>{{.Name}}</h3>
+                        <p class="project-description">{{.Description}}</p>
+                        <div class="project-meta">
+                            <span class="env-count">{{len .Environments}} 个环境</span>
+                            <span class="created-date">创建时间: {{.CreatedAt.Format "2006-01-02"}}</span>
+                        </div>
+                        <div class="project-actions" onclick="event.stopPropagation()">
+                            <button class="btn btn-small btn-outline" onclick="editProject('{{.ID}}', '{{.Name}}', '{{.Description}}')">编辑</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteProject('{{.ID}}', '{{.Name}}')">删除</button>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            {{else}}
+                <div class="empty-state">
+                    <h3>暂无项目</h3>
+                    <p>您还没有创建任何项目，点击上方的"创建项目"按钮开始。</p>
+                    <button class="btn btn-primary" onclick="showCreateForm()">创建第一个项目</button>
+                </div>
+            {{end}}
+        </div>
+    </main>
+
+    <!-- 编辑项目模态框 -->
+    <div id="edit-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>编辑项目</h3>
+            <form id="edit-form">
+                <input type="hidden" id="edit-project-id">
+                <div class="form-group">
+                    <label for="edit-project-name">项目名称 *</label>
+                    <input type="text" id="edit-project-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-project-description">项目描述</label>
+                    <textarea id="edit-project-description" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideEditModal()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 消息提示 -->
+    <div id="message" class="message" style="display: none;"></div>
+
+    <script>
+        // 显示创建表单
+        function showCreateForm() {
+            document.getElementById('create-form').style.display = 'block';
+            document.getElementById('project-name').focus();
+        }
+
+        // 隐藏创建表单
+        function hideCreateForm() {
+            document.getElementById('create-form').style.display = 'none';
+            document.getElementById('project-form').reset();
+        }
+
+        // 查看项目详情
+        function viewProject(projectId) {
+            window.location.href = '/projects/' + projectId;
+        }
+
+        // 编辑项目
+        function editProject(id, name, description) {
+            document.getElementById('edit-project-id').value = id;
+            document.getElementById('edit-project-name').value = name;
+            document.getElementById('edit-project-description').value = description;
+            document.getElementById('edit-modal').style.display = 'flex';
+        }
+
+        // 隐藏编辑模态框
+        function hideEditModal() {
+            document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        // 删除项目
+        function deleteProject(id, name) {
+            if (confirm('确定要删除项目 "' + name + '" 吗？此操作不可撤销。')) {
+                fetch('/api/projects/' + id, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        showMessage('项目删除成功', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showMessage(data.error || '删除失败', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('删除失败: ' + error.message, 'error');
+                });
+            }
+        }
+
+        // 显示消息
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = 'message ' + type;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // 创建项目表单提交
+        document.getElementById('project-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('name'),
+                description: formData.get('description')
+            };
+
+            fetch('/api/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.id) {
+                    showMessage('项目创建成功', 'success');
+                    hideCreateForm();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showMessage(result.error || '创建失败', 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('创建失败: ' + error.message, 'error');
+            });
+        });
+
+        // 编辑项目表单提交
+        document.getElementById('edit-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const projectId = document.getElementById('edit-project-id').value;
+            const data = {
+                name: formData.get('name'),
+                description: formData.get('description')
+            };
+
+            fetch('/api/projects/' + projectId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.id) {
+                    showMessage('项目更新成功', 'success');
+                    hideEditModal();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showMessage(result.error || '更新失败', 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('更新失败: ' + error.message, 'error');
+            });
+        });
+
+        // 点击模态框外部关闭
+        document.getElementById('edit-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideEditModal();
+            }
+        });
+    </script>
+</body>
+</html> 
