@@ -21,8 +21,20 @@ func TestInitConfig(t *testing.T) {
 	// 重置全局配置
 	globalConfig = nil
 
-	// 测试初始化配置
-	err := InitConfig()
+	// 在当前目录创建一个 config.json 文件，确保使用默认配置
+	defaultConfig := &internal.Config{
+		DataDir:   DefaultDataDir,
+		BackupDir: DefaultBackupDir,
+		WebPort:   DefaultWebPort,
+	}
+	err := SaveConfig(defaultConfig)
+	if err != nil {
+		t.Fatalf("Failed to save default config: %v", err)
+	}
+
+	// 重置全局配置，然后测试初始化
+	globalConfig = nil
+	err = InitConfig()
 	if err != nil {
 		t.Fatalf("InitConfig() error = %v", err)
 	}
