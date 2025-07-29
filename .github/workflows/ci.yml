@@ -127,7 +127,7 @@ jobs:
         fi
         
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: envswitch-${{ matrix.goos }}-${{ matrix.goarch }}
         path: dist/
