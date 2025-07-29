@@ -178,7 +178,7 @@ func (s *Server) websocketHandler(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	defer conn.Close()
+	defer func() { _ = conn.Close() }()
 
 	// WebSocket连接处理逻辑
 	for {

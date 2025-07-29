@@ -34,11 +34,11 @@ func setupIntegrationTest(t *testing.T) (*web.Server, string) {
 
 	// 切换到项目根目录以确保模板文件路径正确
 	projectRoot := filepath.Dir(originalDir)
-	os.Chdir(projectRoot)
+	_ = os.Chdir(projectRoot)
 
 	// 恢复目录的函数
 	t.Cleanup(func() {
-		os.Chdir(originalDir)
+		_ = os.Chdir(originalDir)
 	})
 
 	server := web.NewServer()
@@ -159,7 +159,7 @@ func TestAPIProjectLifecycle(t *testing.T) {
 	}
 
 	var createdEnv internal.Environment
-	json.Unmarshal(w.Body.Bytes(), &createdEnv)
+	_ = json.Unmarshal(w.Body.Bytes(), &createdEnv)
 	_ = createdEnv.ID // 忽略未使用的变量
 
 	// 6. 测试列出环境
@@ -258,7 +258,7 @@ func TestAPIStatus(t *testing.T) {
 	}
 
 	var status internal.AppState
-	json.Unmarshal(w.Body.Bytes(), &status)
+	_ = json.Unmarshal(w.Body.Bytes(), &status)
 
 	// 初始状态应该是空的
 	if status.CurrentProject != "" {

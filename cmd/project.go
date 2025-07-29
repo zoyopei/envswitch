@@ -46,10 +46,10 @@ var projectListCmd = &cobra.Command{
 		}
 
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-		fmt.Fprintln(w, "NAME\tDESCRIPTION\tENVIRONMENTS\tCREATED\tUPDATED")
+		_, _ = fmt.Fprintln(w, "NAME\tDESCRIPTION\tENVIRONMENTS\tCREATED\tUPDATED")
 
 		for _, p := range projects {
-			fmt.Fprintf(w, "%s\t%s\t%d\t%s\t%s\n",
+			_, _ = fmt.Fprintf(w, "%s\t%s\t%d\t%s\t%s\n",
 				p.Name,
 				truncateString(p.Description, 30),
 				len(p.Environments),
@@ -57,7 +57,7 @@ var projectListCmd = &cobra.Command{
 				p.UpdatedAt.Format("2006-01-02 15:04"),
 			)
 		}
-		w.Flush()
+		_ = w.Flush()
 	},
 }
 
@@ -82,7 +82,7 @@ var projectShowCmd = &cobra.Command{
 		if len(proj.Environments) > 0 {
 			fmt.Println("\nEnvironments:")
 			w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-			fmt.Fprintln(w, "  NAME\tDESCRIPTION\tFILES\tLAST SWITCH")
+			_, _ = fmt.Fprintln(w, "  NAME\tDESCRIPTION\tFILES\tLAST SWITCH")
 
 			for _, env := range proj.Environments {
 				lastSwitch := "Never"
@@ -90,14 +90,14 @@ var projectShowCmd = &cobra.Command{
 					lastSwitch = env.LastSwitchAt.Format("2006-01-02 15:04")
 				}
 
-				fmt.Fprintf(w, "  %s\t%s\t%d\t%s\n",
+				_, _ = fmt.Fprintf(w, "  %s\t%s\t%d\t%s\n",
 					env.Name,
 					truncateString(env.Description, 25),
 					len(env.Files),
 					lastSwitch,
 				)
 			}
-			w.Flush()
+			_ = w.Flush()
 		}
 	},
 }

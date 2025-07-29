@@ -84,7 +84,7 @@ var envListCmd = &cobra.Command{
 		fmt.Printf("Environments in project '%s':\n\n", projectName)
 
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-		fmt.Fprintln(w, "NAME\tDESCRIPTION\tTAGS\tFILES\tCREATED\tLAST SWITCH")
+		_, _ = fmt.Fprintln(w, "NAME\tDESCRIPTION\tTAGS\tFILES\tCREATED\tLAST SWITCH")
 
 		for _, env := range environments {
 			tagsStr := strings.Join(env.Tags, ", ")
@@ -97,7 +97,7 @@ var envListCmd = &cobra.Command{
 				lastSwitch = env.LastSwitchAt.Format("2006-01-02 15:04")
 			}
 
-			fmt.Fprintf(w, "%s\t%s\t%s\t%d\t%s\t%s\n",
+			_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%d\t%s\t%s\n",
 				env.Name,
 				truncateString(env.Description, 25),
 				tagsStr,
@@ -106,7 +106,7 @@ var envListCmd = &cobra.Command{
 				lastSwitch,
 			)
 		}
-		w.Flush()
+		_ = w.Flush()
 	},
 }
 
@@ -140,16 +140,16 @@ var envShowCmd = &cobra.Command{
 		if len(env.Files) > 0 {
 			fmt.Println("\nFile Configurations:")
 			w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-			fmt.Fprintln(w, "  SOURCE\tTARGET\tDESCRIPTION")
+			_, _ = fmt.Fprintln(w, "  SOURCE\tTARGET\tDESCRIPTION")
 
 			for _, file := range env.Files {
-				fmt.Fprintf(w, "  %s\t%s\t%s\n",
+				_, _ = fmt.Fprintf(w, "  %s\t%s\t%s\n",
 					file.SourcePath,
 					file.TargetPath,
 					file.Description,
 				)
 			}
-			w.Flush()
+			_ = w.Flush()
 		}
 	},
 }

@@ -1,0 +1,957 @@
+{
+	"runs": [
+		{
+			"results": [
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 15,
+									"endLine": 193,
+									"snippet": {
+										"text": "data, err := os.ReadFile(filepath)"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 15,
+									"startLine": 193
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Potential file inclusion via variable"
+					},
+					"ruleId": "G304"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 15,
+									"endLine": 149,
+									"snippet": {
+										"text": "data, err := os.ReadFile(filepath)"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 15,
+									"startLine": 149
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Potential file inclusion via variable"
+					},
+					"ruleId": "G304"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 15,
+									"endLine": 50,
+									"snippet": {
+										"text": "data, err := os.ReadFile(filepath)"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 15,
+									"startLine": 50
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Potential file inclusion via variable"
+					},
+					"ruleId": "G304"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 19,
+									"endLine": 116,
+									"snippet": {
+										"text": "destFile, err := os.Create(dst)"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 19,
+									"startLine": 116
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Potential file inclusion via variable"
+					},
+					"ruleId": "G304"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 21,
+									"endLine": 110,
+									"snippet": {
+										"text": "sourceFile, err := os.Open(src)"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 21,
+									"startLine": 110
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Potential file inclusion via variable"
+					},
+					"ruleId": "G304"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\config\\config.go"
+								},
+								"region": {
+									"endColumn": 15,
+									"endLine": 47,
+									"snippet": {
+										"text": "data, err := os.ReadFile(configPath)"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 15,
+									"startLine": 47
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Potential file inclusion via variable"
+					},
+					"ruleId": "G304"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\cmd\\server.go"
+								},
+								"region": {
+									"endColumn": 18,
+									"endLine": 37,
+									"snippet": {
+										"text": "httpServer := \u0026http.Server{\nAddr:    \":\" + strconv.Itoa(port),\nHandler: server.SetupRoutes(),\n}\n"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 18,
+									"startLine": 34
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Potential Slowloris Attack because ReadHeaderTimeout is not configured in the http.Server"
+					},
+					"ruleId": "G112"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\web\\server.go"
+								},
+								"region": {
+									"endColumn": 21,
+									"endLine": 152,
+									"snippet": {
+										"text": "targetProject = \u0026project"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 21,
+									"startLine": 152
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Implicit memory aliasing in for loop."
+					},
+					"ruleId": "G601"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\web\\server.go"
+								},
+								"region": {
+									"endColumn": 17,
+									"endLine": 151,
+									"snippet": {
+										"text": "targetEnv = \u0026env"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 17,
+									"startLine": 151
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Implicit memory aliasing in for loop."
+					},
+					"ruleId": "G601"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 18,
+									"endLine": 147,
+									"snippet": {
+										"text": "environment = \u0026env"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 18,
+									"startLine": 147
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Implicit memory aliasing in for loop."
+					},
+					"ruleId": "G601"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 26,
+									"endLine": 56,
+									"snippet": {
+										"text": "if err := m.switchFile(\u0026fileConfig); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 26,
+									"startLine": 56
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Implicit memory aliasing in for loop."
+					},
+					"ruleId": "G601"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 18,
+									"endLine": 45,
+									"snippet": {
+										"text": "environment = \u0026env"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 18,
+									"startLine": 45
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Implicit memory aliasing in for loop."
+					},
+					"ruleId": "G601"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 169,
+									"snippet": {
+										"text": "if err := os.MkdirAll(backupDir, 0755); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 169
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect directory permissions to be 0750 or less"
+					},
+					"ruleId": "G301"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 26,
+									"snippet": {
+										"text": "if err := os.MkdirAll(projectsDir, 0755); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 26
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect directory permissions to be 0750 or less"
+					},
+					"ruleId": "G301"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 13,
+									"endLine": 247,
+									"snippet": {
+										"text": "if err := os.MkdirAll(targetDir, 0755); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 13,
+									"startLine": 247
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect directory permissions to be 0750 or less"
+					},
+					"ruleId": "G301"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 159,
+									"snippet": {
+										"text": "if err := os.MkdirAll(backupDir, 0755); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 159
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect directory permissions to be 0750 or less"
+					},
+					"ruleId": "G301"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\file\\file.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 96,
+									"snippet": {
+										"text": "if err := os.MkdirAll(targetDir, 0755); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 96
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect directory permissions to be 0750 or less"
+					},
+					"ruleId": "G301"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\config\\config.go"
+								},
+								"region": {
+									"endColumn": 13,
+									"endLine": 152,
+									"snippet": {
+										"text": "if err := os.MkdirAll(dir, 0755); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 13,
+									"startLine": 152
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect directory permissions to be 0750 or less"
+					},
+					"ruleId": "G301"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\config\\config.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 66,
+									"snippet": {
+										"text": "if err := os.MkdirAll(filepath.Dir(configPath), 0755); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 66
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect directory permissions to be 0750 or less"
+					},
+					"ruleId": "G301"
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 181,
+									"snippet": {
+										"text": "if err := os.WriteFile(filepath, data, 0644); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 181
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect WriteFile permissions to be 0600 or less"
+					},
+					"ruleId": "G306",
+					"ruleIndex": 1
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 138,
+									"snippet": {
+										"text": "if err := os.WriteFile(filepath, data, 0644); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 138
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect WriteFile permissions to be 0600 or less"
+					},
+					"ruleId": "G306",
+					"ruleIndex": 1
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\storage\\storage.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 38,
+									"snippet": {
+										"text": "if err := os.WriteFile(filepath, data, 0644); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 38
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect WriteFile permissions to be 0600 or less"
+					},
+					"ruleId": "G306",
+					"ruleIndex": 1
+				},
+				{
+					"level": "error",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\internal\\config\\config.go"
+								},
+								"region": {
+									"endColumn": 12,
+									"endLine": 75,
+									"snippet": {
+										"text": "if err := os.WriteFile(configPath, data, 0644); err != nil {"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 12,
+									"startLine": 75
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Expect WriteFile permissions to be 0600 or less"
+					},
+					"ruleId": "G306",
+					"ruleIndex": 1
+				},
+				{
+					"level": "warning",
+					"locations": [
+						{
+							"physicalLocation": {
+								"artifactLocation": {
+									"uri": "F:\\workspace\\myproject\\EnvSwitch\\cmd\\project.go"
+								},
+								"region": {
+									"endColumn": 4,
+									"endLine": 100,
+									"snippet": {
+										"text": "_ = w.Flush()"
+									},
+									"sourceLanguage": "go",
+									"startColumn": 4,
+									"startLine": 100
+								}
+							}
+						}
+					],
+					"message": {
+						"text": "Errors unhandled"
+					},
+					"ruleId": "G104"
+				}
+			],
+			"taxonomies": [
+				{
+					"downloadUri": "https://cwe.mitre.org/data/xml/cwec_v4.4.xml.zip",
+					"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+					"informationUri": "https://cwe.mitre.org/data/published/cwe_v4.4.pdf/",
+					"isComprehensive": true,
+					"language": "en",
+					"minimumRequiredLocalizedDataSemanticVersion": "4.4",
+					"name": "CWE",
+					"organization": "MITRE",
+					"releaseDateUtc": "2021-03-15",
+					"shortDescription": {
+						"text": "The MITRE Common Weakness Enumeration"
+					},
+					"taxa": [
+						{
+							"fullDescription": {
+								"text": "The software does not restrict or incorrectly restricts operations within the boundaries of a resource that is accessed using an index or pointer, such as memory or files."
+							},
+							"guid": "ebb90d25-d5f3-32f8-b42a-b74b23984fbb",
+							"helpUri": "https://cwe.mitre.org/data/definitions/118.html",
+							"id": "118",
+							"shortDescription": {
+								"text": "Incorrect Access of Indexable Resource ('Range Error')"
+							}
+						},
+						{
+							"fullDescription": {
+								"text": "The software uses external input to construct a pathname that is intended to identify a file or directory that is located underneath a restricted parent directory, but the software does not properly neutralize special elements within the pathname that can cause the pathname to resolve to a location that is outside of the restricted directory."
+							},
+							"guid": "3e718404-88bc-3f17-883e-e85e74078a76",
+							"helpUri": "https://cwe.mitre.org/data/definitions/22.html",
+							"id": "22",
+							"shortDescription": {
+								"text": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+							}
+						},
+						{
+							"fullDescription": {
+								"text": "During installation, installed file permissions are set to allow anyone to modify those files."
+							},
+							"guid": "fca8970d-b44c-3162-a385-cc09266d12a4",
+							"helpUri": "https://cwe.mitre.org/data/definitions/276.html",
+							"id": "276",
+							"shortDescription": {
+								"text": "Incorrect Default Permissions"
+							}
+						},
+						{
+							"fullDescription": {
+								"text": "The software does not properly control the allocation and maintenance of a limited resource, thereby enabling an actor to influence the amount of resources consumed, eventually leading to the exhaustion of available resources."
+							},
+							"guid": "5d980950-93cd-3caf-9057-858ec3c28877",
+							"helpUri": "https://cwe.mitre.org/data/definitions/400.html",
+							"id": "400",
+							"shortDescription": {
+								"text": "Uncontrolled Resource Consumption"
+							}
+						},
+						{
+							"fullDescription": {
+								"text": "The software does not properly anticipate or handle exceptional conditions that rarely occur during normal operation of the software."
+							},
+							"guid": "7df38d1d-038e-3ced-8601-8d9265b90a25",
+							"helpUri": "https://cwe.mitre.org/data/definitions/703.html",
+							"id": "703",
+							"shortDescription": {
+								"text": "Improper Check or Handling of Exceptional Conditions"
+							}
+						}
+					],
+					"version": "4.4"
+				}
+			],
+			"tool": {
+				"driver": {
+					"guid": "8b518d5f-906d-39f9-894b-d327b1a421c5",
+					"informationUri": "https://github.com/securego/gosec/",
+					"name": "gosec",
+					"rules": [
+						{
+							"defaultConfiguration": {
+								"level": "warning"
+							},
+							"fullDescription": {
+								"text": "Errors unhandled"
+							},
+							"help": {
+								"text": "Errors unhandled\nSeverity: LOW\nConfidence: HIGH\n"
+							},
+							"id": "G104",
+							"name": "Improper Check or Handling of Exceptional Conditions",
+							"properties": {
+								"precision": "high",
+								"tags": [
+									"security",
+									"LOW"
+								]
+							},
+							"relationships": [
+								{
+									"kinds": [
+										"superset"
+									],
+									"target": {
+										"guid": "7df38d1d-038e-3ced-8601-8d9265b90a25",
+										"id": "703",
+										"toolComponent": {
+											"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+											"name": "CWE"
+										}
+									}
+								}
+							],
+							"shortDescription": {
+								"text": "Errors unhandled"
+							}
+						},
+						{
+							"defaultConfiguration": {
+								"level": "error"
+							},
+							"fullDescription": {
+								"text": "Expect directory permissions to be 0750 or less"
+							},
+							"help": {
+								"text": "Expect directory permissions to be 0750 or less\nSeverity: MEDIUM\nConfidence: HIGH\n"
+							},
+							"id": "G301",
+							"name": "Incorrect Default Permissions",
+							"properties": {
+								"precision": "high",
+								"tags": [
+									"security",
+									"MEDIUM"
+								]
+							},
+							"relationships": [
+								{
+									"kinds": [
+										"superset"
+									],
+									"target": {
+										"guid": "fca8970d-b44c-3162-a385-cc09266d12a4",
+										"id": "276",
+										"toolComponent": {
+											"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+											"name": "CWE"
+										}
+									}
+								}
+							],
+							"shortDescription": {
+								"text": "Expect directory permissions to be 0750 or less"
+							}
+						},
+						{
+							"defaultConfiguration": {
+								"level": "error"
+							},
+							"fullDescription": {
+								"text": "Expect WriteFile permissions to be 0600 or less"
+							},
+							"help": {
+								"text": "Expect WriteFile permissions to be 0600 or less\nSeverity: MEDIUM\nConfidence: HIGH\n"
+							},
+							"id": "G306",
+							"name": "Incorrect Default Permissions",
+							"properties": {
+								"precision": "high",
+								"tags": [
+									"security",
+									"MEDIUM"
+								]
+							},
+							"relationships": [
+								{
+									"kinds": [
+										"superset"
+									],
+									"target": {
+										"guid": "fca8970d-b44c-3162-a385-cc09266d12a4",
+										"id": "276",
+										"toolComponent": {
+											"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+											"name": "CWE"
+										}
+									}
+								}
+							],
+							"shortDescription": {
+								"text": "Expect WriteFile permissions to be 0600 or less"
+							}
+						},
+						{
+							"defaultConfiguration": {
+								"level": "error"
+							},
+							"fullDescription": {
+								"text": "Implicit memory aliasing in for loop."
+							},
+							"help": {
+								"text": "Implicit memory aliasing in for loop.\nSeverity: MEDIUM\nConfidence: MEDIUM\n"
+							},
+							"id": "G601",
+							"name": "Incorrect Access of Indexable Resource ('Range Error')",
+							"properties": {
+								"precision": "medium",
+								"tags": [
+									"security",
+									"MEDIUM"
+								]
+							},
+							"relationships": [
+								{
+									"kinds": [
+										"superset"
+									],
+									"target": {
+										"guid": "ebb90d25-d5f3-32f8-b42a-b74b23984fbb",
+										"id": "118",
+										"toolComponent": {
+											"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+											"name": "CWE"
+										}
+									}
+								}
+							],
+							"shortDescription": {
+								"text": "Implicit memory aliasing in for loop."
+							}
+						},
+						{
+							"defaultConfiguration": {
+								"level": "error"
+							},
+							"fullDescription": {
+								"text": "Potential Slowloris Attack because ReadHeaderTimeout is not configured in the http.Server"
+							},
+							"help": {
+								"text": "Potential Slowloris Attack because ReadHeaderTimeout is not configured in the http.Server\nSeverity: MEDIUM\nConfidence: LOW\n"
+							},
+							"id": "G112",
+							"name": "Uncontrolled Resource Consumption",
+							"properties": {
+								"precision": "low",
+								"tags": [
+									"security",
+									"MEDIUM"
+								]
+							},
+							"relationships": [
+								{
+									"kinds": [
+										"superset"
+									],
+									"target": {
+										"guid": "5d980950-93cd-3caf-9057-858ec3c28877",
+										"id": "400",
+										"toolComponent": {
+											"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+											"name": "CWE"
+										}
+									}
+								}
+							],
+							"shortDescription": {
+								"text": "Potential Slowloris Attack because ReadHeaderTimeout is not configured in the http.Server"
+							}
+						},
+						{
+							"defaultConfiguration": {
+								"level": "error"
+							},
+							"fullDescription": {
+								"text": "Potential file inclusion via variable"
+							},
+							"help": {
+								"text": "Potential file inclusion via variable\nSeverity: MEDIUM\nConfidence: HIGH\n"
+							},
+							"id": "G304",
+							"name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+							"properties": {
+								"precision": "high",
+								"tags": [
+									"security",
+									"MEDIUM"
+								]
+							},
+							"relationships": [
+								{
+									"kinds": [
+										"superset"
+									],
+									"target": {
+										"guid": "3e718404-88bc-3f17-883e-e85e74078a76",
+										"id": "22",
+										"toolComponent": {
+											"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+											"name": "CWE"
+										}
+									}
+								}
+							],
+							"shortDescription": {
+								"text": "Potential file inclusion via variable"
+							}
+						}
+					],
+					"semanticVersion": "dev",
+					"supportedTaxonomies": [
+						{
+							"guid": "f2856fc0-85b7-373f-83e7-6f8582243547",
+							"name": "CWE"
+						}
+					],
+					"version": "dev"
+				}
+			}
+		}
+	],
+	"$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+	"version": "2.1.0"
+}
