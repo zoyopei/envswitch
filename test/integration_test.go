@@ -99,7 +99,7 @@ func TestAPIProjectLifecycle(t *testing.T) {
 	}
 
 	var createdProject internal.Project
-	json.Unmarshal(w.Body.Bytes(), &createdProject)
+	_ = json.Unmarshal(w.Body.Bytes(), &createdProject)
 	projectID := createdProject.ID
 
 	if createdProject.Name != "test-api-project" {
@@ -116,7 +116,7 @@ func TestAPIProjectLifecycle(t *testing.T) {
 	}
 
 	var fetchedProject internal.Project
-	json.Unmarshal(w.Body.Bytes(), &fetchedProject)
+	_ = json.Unmarshal(w.Body.Bytes(), &fetchedProject)
 	if fetchedProject.ID != projectID {
 		t.Errorf("Expected project ID = %s, got %s", projectID, fetchedProject.ID)
 	}
@@ -137,7 +137,7 @@ func TestAPIProjectLifecycle(t *testing.T) {
 	}
 
 	var updatedProject internal.Project
-	json.Unmarshal(w.Body.Bytes(), &updatedProject)
+	_ = json.Unmarshal(w.Body.Bytes(), &updatedProject)
 	if updatedProject.Name != "updated-api-project" {
 		t.Errorf("Expected updated name = updated-api-project, got %s", updatedProject.Name)
 	}

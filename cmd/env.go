@@ -114,7 +114,7 @@ var envShowCmd = &cobra.Command{
 	Use:   "show <project> <env-name>",
 	Short: "Show environment details",
 	Args:  cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, args []string) {
 		projectName := args[0]
 		envName := args[1]
 
@@ -261,7 +261,7 @@ var envRemoveFileCmd = &cobra.Command{
 	Use:   "remove-file <project> <env-name> <file-id>",
 	Short: "Remove file configuration from environment",
 	Args:  cobra.ExactArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, args []string) {
 		projectName := args[0]
 		envName := args[1]
 		fileID := args[2]

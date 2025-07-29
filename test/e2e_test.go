@@ -16,8 +16,8 @@ func TestCLIEndToEnd(t *testing.T) {
 	// 设置测试环境
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
-	os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(originalDir) }()
+	_ = os.Chdir(tempDir)
 
 	// 构建可执行文件（从项目根目录构建）
 	projectRoot := filepath.Dir(originalDir)
@@ -224,8 +224,8 @@ func TestWebServerEndToEnd(t *testing.T) {
 	// 设置测试环境
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
-	os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(originalDir) }()
+	_ = os.Chdir(tempDir)
 
 	// 构建可执行文件（从项目根目录构建）
 	projectRoot := filepath.Dir(originalDir)
@@ -248,7 +248,7 @@ func TestWebServerEndToEnd(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to start server: %v", err)
 	}
-	defer cmd.Process.Kill()
+	defer func() { _ = cmd.Process.Kill() }()
 
 	// 等待服务器启动
 	time.Sleep(2 * time.Second)
