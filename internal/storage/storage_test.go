@@ -3,6 +3,8 @@ package storage
 import (
 	"envswitch/internal"
 	"envswitch/internal/config"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -10,10 +12,16 @@ import (
 func setupStorageTest(t *testing.T) *Storage {
 	tempDir := t.TempDir()
 
-	// 设置临时配置
+	// 保存原始配置并在测试结束后恢复
+	originalConfig := config.GetConfig()
+	t.Cleanup(func() {
+		_ = config.SaveConfig(originalConfig)
+	})
+
+	// 设置临时配置，使用临时目录中的路径
 	testConfig := &internal.Config{
-		DataDir:   tempDir + "/data",
-		BackupDir: tempDir + "/backups",
+		DataDir:   filepath.Join(tempDir, "data"),
+		BackupDir: filepath.Join(tempDir, "backups"),
 		WebPort:   8080,
 	}
 
@@ -21,6 +29,10 @@ func setupStorageTest(t *testing.T) *Storage {
 	if err != nil {
 		t.Fatalf("Failed to save test config: %v", err)
 	}
+
+	// 确保目录存在
+	_ = os.MkdirAll(testConfig.DataDir, 0755)
+	_ = os.MkdirAll(testConfig.BackupDir, 0755)
 
 	return NewStorage()
 }
