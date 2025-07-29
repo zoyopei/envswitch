@@ -1,10 +1,10 @@
-﻿# EnvSwitch - 环境管理切换工具
+﻿# envswitch - 环境管理切换工具
 
-[![CI](https://github.com/zoyopei/EnvSwitch/workflows/CI/badge.svg)](https://github.com/zoyopei/EnvSwitch/actions/workflows/ci.yml)
-[![Release](https://github.com/zoyopei/EnvSwitch/workflows/Release/badge.svg)](https://github.com/zoyopei/EnvSwitch/actions/workflows/release.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/zoyopei/EnvSwitch)](https://goreportcard.com/report/github.com/zoyopei/EnvSwitch)
+[![CI](https://github.com/zoyopei/envswitch/workflows/CI/badge.svg)](https://github.com/zoyopei/envswitch/actions/workflows/ci.yml)
+[![Release](https://github.com/zoyopei/envswitch/workflows/Release/badge.svg)](https://github.com/zoyopei/envswitch/actions/workflows/release.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/zoyopei/envswitch)](https://goreportcard.com/report/github.com/zoyopei/envswitch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/zoyopei/EnvSwitch.svg)](https://github.com/zoyopei/EnvSwitch/releases)
+[![GitHub release](https://img.shields.io/github/release/zoyopei/envswitch.svg)](https://github.com/zoyopei/envswitch/releases)
 
 一个用Go语言实现的环境管理切换命令行工具，支持多项目、多环境配置管理，可以快速切换不同环境的配置文件。同时提供Web界面进行可视化管理。
 
@@ -31,7 +31,7 @@
 使用 Go 的内置包管理器一键安装，这是最简单、最快捷的安装方式：
 
 ```bash
-go install github.com/zoyopei/EnvSwitch@latest
+go install github.com/zoyopei/envswitch@latest
 ```
 
 **要求**：
@@ -40,14 +40,14 @@ go install github.com/zoyopei/EnvSwitch@latest
 
 **验证安装**：
 ```bash
-EnvSwitch --help
+envswitch --help
 ```
 
 您应该看到命令帮助信息，确认安装成功。
 
 **Web 服务测试**：
 ```bash
-EnvSwitch server --port 8080
+envswitch server --port 8080
 ```
 
 然后在浏览器中访问 `http://localhost:8080` 验证 Web 界面正常工作。
@@ -58,18 +58,18 @@ EnvSwitch server --port 8080
 
 #### 一键安装脚本 (Linux/macOS)
 ```bash
-curl -sfL https://github.com/zoyopei/EnvSwitch/releases/latest/download/install.sh | sh
+curl -sfL https://github.com/zoyopei/envswitch/releases/latest/download/install.sh | sh
 ```
 
 #### 下载预编译二进制文件
-在 [Releases](https://github.com/zoyopei/EnvSwitch/releases) 页面下载适合您系统的二进制文件。
+在 [Releases](https://github.com/zoyopei/envswitch/releases) 页面下载适合您系统的二进制文件。
 
 #### 从源码构建
 ```bash
-git clone https://github.com/zoyopei/EnvSwitch.git
-cd EnvSwitch
+git clone https://github.com/zoyopei/envswitch.git
+cd envswitch
 go mod tidy
-go build -o EnvSwitch .
+go build -o envswitch .
 ```
 
 ## 🔧 快速开始
@@ -78,63 +78,63 @@ go build -o EnvSwitch .
 
 ```bash
 # 首次运行会自动创建配置文件
-EnvSwitch project list
+envswitch project list
 ```
 
 ### 2. 创建项目
 
 ```bash
 # 创建一个新项目
-EnvSwitch project create myapp --description="我的应用项目"
+envswitch project create myapp --description="我的应用项目"
 
 # 设置为默认项目
-EnvSwitch project set-default myapp
+envswitch project set-default myapp
 ```
 
 ### 3. 创建环境
 
 ```bash
 # 在项目中创建开发环境
-EnvSwitch env create myapp dev --description="开发环境" --tags="development,local"
+envswitch env create myapp dev --description="开发环境" --tags="development,local"
 
 # 创建生产环境
-EnvSwitch env create myapp prod --description="生产环境" --tags="production"
+envswitch env create myapp prod --description="生产环境" --tags="production"
 ```
 
 ### 4. 添加文件配置
 
 ```bash
 # 为开发环境添加配置文件
-EnvSwitch env add-file myapp dev ./config/dev.json ./app/config.json --description="开发配置文件"
+envswitch env add-file myapp dev ./config/dev.json ./app/config.json --description="开发配置文件"
 
 # 为生产环境添加配置文件
-EnvSwitch env add-file myapp prod ./config/prod.json ./app/config.json --description="生产配置文件"
+envswitch env add-file myapp prod ./config/prod.json ./app/config.json --description="生产配置文件"
 ```
 
 ### 5. 切换环境
 
 ```bash
 # 切换到开发环境
-EnvSwitch switch myapp dev
+envswitch switch myapp dev
 
 # 或者使用默认项目（如果已设置）
-EnvSwitch switch dev
+envswitch switch dev
 
 # 查看当前状态
-EnvSwitch status
+envswitch status
 ```
 
 ### 6. 启动Web服务
 
 ```bash
 # 启动Web界面（默认端口8080）
-EnvSwitch server
+envswitch server
 
 # 指定端口
-EnvSwitch server --port 9090
+envswitch server --port 9090
 
 # 后台运行
-EnvSwitch server --daemon
+envswitch server --daemon
 ```
 
 然后在浏览器中访问 `http://localhost:8080`
@@ -145,90 +145,90 @@ EnvSwitch server --daemon
 
 ```bash
 # 创建项目
-EnvSwitch project create <name> [--description="描述"]
+envswitch project create <name> [--description="描述"]
 
 # 列出所有项目
-EnvSwitch project list
+envswitch project list
 
 # 查看项目详情
-EnvSwitch project show <name>
+envswitch project show <name>
 
 # 删除项目
-EnvSwitch project delete <name> [--force]
+envswitch project delete <name> [--force]
 
 # 设置默认项目
-EnvSwitch project set-default <name>
+envswitch project set-default <name>
 ```
 
 ### 环境管理
 
 ```bash
 # 创建环境
-EnvSwitch env create <project> <env-name> [--description="描述"] [--tags="tag1,tag2"]
+envswitch env create <project> <env-name> [--description="描述"] [--tags="tag1,tag2"]
 
 # 列出环境
-EnvSwitch env list [project]
+envswitch env list [project]
 
 # 查看环境详情
-EnvSwitch env show <project> <env-name>
+envswitch env show <project> <env-name>
 
 # 修改环境
-EnvSwitch env update <project> <env-name> [--description="新描述"] [--tags="tag1,tag2"]
+envswitch env update <project> <env-name> [--description="新描述"] [--tags="tag1,tag2"]
 
 # 删除环境
-EnvSwitch env delete <project> <env-name> [--force]
+envswitch env delete <project> <env-name> [--force]
 
 # 添加文件配置
-EnvSwitch env add-file <project> <env-name> <source> <target> [--description="描述"]
+envswitch env add-file <project> <env-name> <source> <target> [--description="描述"]
 
 # 移除文件配置
-EnvSwitch env remove-file <project> <env-name> <file-id>
+envswitch env remove-file <project> <env-name> <file-id>
 ```
 
 ### 环境切换
 
 ```bash
 # 切换到指定环境
-EnvSwitch switch <project> <env-name>
+envswitch switch <project> <env-name>
 
 # 快速切换（使用默认项目）
-EnvSwitch switch <env-name>
+envswitch switch <env-name>
 
 # 预览模式（不实际执行）
-EnvSwitch switch <env-name> --dry-run
+envswitch switch <env-name> --dry-run
 
 # 查看当前环境状态
-EnvSwitch status
+envswitch status
 
 # 回滚到切换前状态
-EnvSwitch rollback [backup-id] [--force]
+envswitch rollback [backup-id] [--force]
 ```
 
 ### Web服务
 
 ```bash
 # 启动Web服务
-EnvSwitch server [--port=8080] [--daemon]
+envswitch server [--port=8080] [--daemon]
 ```
 
 ### 配置管理
 
 ```bash
 # 显示当前配置
-EnvSwitch config show
+envswitch config show
 
 # 设置配置项
-EnvSwitch config set <key> <value>
+envswitch config set <key> <value>
 
 # 支持的配置项
-EnvSwitch config set data_dir <路径>                # 数据目录路径
-EnvSwitch config set backup_dir <路径>              # 备份目录路径
-EnvSwitch config set web_port <端口>                # Web服务端口
-EnvSwitch config set default_project <项目名>       # 默认项目
-EnvSwitch config set enable_data_dir_check <true/false>  # 数据目录检查
+envswitch config set data_dir <路径>                # 数据目录路径
+envswitch config set backup_dir <路径>              # 备份目录路径
+envswitch config set web_port <端口>                # Web服务端口
+envswitch config set default_project <项目名>       # 默认项目
+envswitch config set enable_data_dir_check <true/false>  # 数据目录检查
 
 # 迁移数据目录
-EnvSwitch migrate-datadir <new-directory>
+envswitch migrate-datadir <new-directory>
 ```
 
 ## 🌐 Web API
@@ -255,7 +255,7 @@ EnvSwitch migrate-datadir <new-directory>
 ## 📁 目录结构
 
 ```
-EnvSwitch/
+envswitch/
 ├── cmd/                    # CLI命令实现
 ├── internal/              # 内部包
 ├── web/                   # Web界面资源
@@ -294,7 +294,7 @@ EnvSwitch/
 
 ### 🛡️ 数据目录保护机制
 
-为了防止用户意外修改配置文件中的 `data_dir` 导致数据丢失，EnvSwitch 提供了强大的数据目录保护机制：
+为了防止用户意外修改配置文件中的 `data_dir` 导致数据丢失，envswitch 提供了强大的数据目录保护机制：
 
 #### 安全检查
 - **自动检测**：检测数据目录变更并评估风险
@@ -311,16 +311,16 @@ EnvSwitch/
 
 ```bash
 # 查看当前配置
-EnvSwitch config show
+envswitch config show
 
 # 安全修改数据目录
-EnvSwitch config set data_dir /new/path
+envswitch config set data_dir /new/path
 
 # 启用/禁用数据目录检查
-EnvSwitch config set enable_data_dir_check true
+envswitch config set enable_data_dir_check true
 
 # 快速迁移数据目录
-EnvSwitch migrate-datadir /new/path
+envswitch migrate-datadir /new/path
 ```
 
 #### 数据目录变更流程
@@ -383,7 +383,7 @@ EnvSwitch migrate-datadir /new/path
 
 ```bash
 # 克隆项目
-git clone https://github.com/your-org/envswitch.git
+git clone https://github.com/zoyopei/envswitch.git
 cd envswitch
 
 # 安装依赖
@@ -396,7 +396,7 @@ go test ./...
 go run main.go
 
 # 构建
-go build -o EnvSwitch
+go build -o envswitch
 ```
 
 ### 目录说明
@@ -411,56 +411,56 @@ go build -o EnvSwitch
 
 ```bash
 # 创建项目
-EnvSwitch project create webapp --description="Web应用项目"
+envswitch project create webapp --description="Web应用项目"
 
 # 创建环境
-EnvSwitch env create webapp dev --description="开发环境"
-EnvSwitch env create webapp test --description="测试环境"
-EnvSwitch env create webapp prod --description="生产环境"
+envswitch env create webapp dev --description="开发环境"
+envswitch env create webapp test --description="测试环境"
+envswitch env create webapp prod --description="生产环境"
 
 # 添加package.json配置
-EnvSwitch env add-file webapp dev ./configs/dev/package.json ./package.json
-EnvSwitch env add-file webapp test ./configs/test/package.json ./package.json
-EnvSwitch env add-file webapp prod ./configs/prod/package.json ./package.json
+envswitch env add-file webapp dev ./configs/dev/package.json ./package.json
+envswitch env add-file webapp test ./configs/test/package.json ./package.json
+envswitch env add-file webapp prod ./configs/prod/package.json ./package.json
 
 # 添加环境变量文件
-EnvSwitch env add-file webapp dev ./configs/dev/.env ./.env
-EnvSwitch env add-file webapp test ./configs/test/.env ./.env
-EnvSwitch env add-file webapp prod ./configs/prod/.env ./.env
+envswitch env add-file webapp dev ./configs/dev/.env ./.env
+envswitch env add-file webapp test ./configs/test/.env ./.env
+envswitch env add-file webapp prod ./configs/prod/.env ./.env
 
 # 切换到开发环境
-EnvSwitch switch webapp dev
+envswitch switch webapp dev
 
 # 切换到生产环境
-EnvSwitch switch webapp prod
+envswitch switch webapp prod
 ```
 
 ### 管理数据库配置
 
 ```bash
 # 创建数据库项目
-EnvSwitch project create database --description="数据库配置管理"
+envswitch project create database --description="数据库配置管理"
 
 # 创建环境
-EnvSwitch env create database local --description="本地数据库"
-EnvSwitch env create database staging --description="预发布数据库"
-EnvSwitch env create database production --description="生产数据库"
+envswitch env create database local --description="本地数据库"
+envswitch env create database staging --description="预发布数据库"
+envswitch env create database production --description="生产数据库"
 
 # 添加数据库配置文件
-EnvSwitch env add-file database local ./db-configs/local.conf ./etc/database.conf
-EnvSwitch env add-file database staging ./db-configs/staging.conf ./etc/database.conf
-EnvSwitch env add-file database production ./db-configs/production.conf ./etc/database.conf
+envswitch env add-file database local ./db-configs/local.conf ./etc/database.conf
+envswitch env add-file database staging ./db-configs/staging.conf ./etc/database.conf
+envswitch env add-file database production ./db-configs/production.conf ./etc/database.conf
 
 # 切换数据库环境
-EnvSwitch switch database production
+envswitch switch database production
 ```
 
 ## 🛠 开发
 
 ### 本地开发环境设置
 ```bash
-git clone https://github.com/zoyopei/EnvSwitch.git
-cd EnvSwitch
+git clone https://github.com/zoyopei/envswitch.git
+cd envswitch
 go mod download
 
 # 运行应用
@@ -479,7 +479,7 @@ make build
 make cross-compile
 
 # 使用 Go 直接构建
-go build -o EnvSwitch .
+go build -o envswitch .
 ```
 
 ### 运行测试
@@ -565,9 +565,9 @@ make format
 
 ## 📞 支持
 
-- 📚 [文档](https://github.com/zoyopei/EnvSwitch/wiki)
-- 🐛 [问题反馈](https://github.com/zoyopei/EnvSwitch/issues)
-- 💬 [讨论](https://github.com/zoyopei/EnvSwitch/discussions)
+- 📚 [文档](https://github.com/zoyopei/envswitch/wiki)
+- 🐛 [问题反馈](https://github.com/zoyopei/envswitch/issues)
+- 💬 [讨论](https://github.com/zoyopei/envswitch/discussions)
 - 📫 [邮件支持](mailto:zoyopei@gmail.com)
 
 ---

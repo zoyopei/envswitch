@@ -1,4 +1,4 @@
-# EnvSwitch Makefile
+# envswitch Makefile
 
 .PHONY: all build test clean install help
 
