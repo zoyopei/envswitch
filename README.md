@@ -211,6 +211,26 @@ EnvSwitch rollback [backup-id] [--force]
 EnvSwitch server [--port=8080] [--daemon]
 ```
 
+### 配置管理
+
+```bash
+# 显示当前配置
+EnvSwitch config show
+
+# 设置配置项
+EnvSwitch config set <key> <value>
+
+# 支持的配置项
+EnvSwitch config set data_dir <路径>                # 数据目录路径
+EnvSwitch config set backup_dir <路径>              # 备份目录路径
+EnvSwitch config set web_port <端口>                # Web服务端口
+EnvSwitch config set default_project <项目名>       # 默认项目
+EnvSwitch config set enable_data_dir_check <true/false>  # 数据目录检查
+
+# 迁移数据目录
+EnvSwitch migrate-datadir <new-directory>
+```
+
 ## 🌐 Web API
 
 ### 项目相关
@@ -237,11 +257,15 @@ EnvSwitch server [--port=8080] [--daemon]
 ```
 EnvSwitch/
 ├── cmd/                    # CLI命令实现
-├── internal/              # 内部
-├── web/                  # Web界面资源
-├── data/                # 数据存储目录
-├── backups/             # 备份目录
-└── config.json          # 配置文件
+├── internal/              # 内部包
+├── web/                   # Web界面资源
+└── main.go                # 主程序入口
+
+用户数据目录 (~/.envswitch/):
+├── data/                  # 数据存储目录
+│   └── projects/          # 项目文件存储
+├── backups/               # 备份目录
+└── config.json           # 配置文件
 ```
 
 ## ⚙️ 配置文件
@@ -253,11 +277,79 @@ EnvSwitch/
 默认配置：
 ```json
 {
-  "data_dir": "data",
-  "backup_dir": "backups",
+  "data_dir": "~/.envswitch/data",
+  "backup_dir": "~/.envswitch/backups",
   "web_port": 8080,
-  "default_project": ""
+  "default_project": "",
+  "original_data_dir": "~/.envswitch/data",
+  "data_dir_history": [],
+  "enable_data_dir_check": true
 }
+```
+
+**注意**：
+- 数据和备份目录默认存储在用户主目录的 `.envswitch` 文件夹中
+- 这样可以避免在临时目录中存储重要数据
+- 支持跨项目共享配置和数据
+
+### 🛡️ 数据目录保护机制
+
+为了防止用户意外修改配置文件中的 `data_dir` 导致数据丢失，EnvSwitch 提供了强大的数据目录保护机制：
+
+#### 安全检查
+- **自动检测**：检测数据目录变更并评估风险
+- **数据验证**：检查当前目录是否包含项目数据
+- **用户确认**：如有数据存在，需要用户明确确认操作
+
+#### 保护功能
+- **历史记录**：记录所有历史数据目录路径
+- **自动备份**：迁移前自动创建完整备份
+- **安全迁移**：完整迁移所有项目和环境数据
+- **回滚支持**：支持从备份中恢复数据
+
+#### 配置管理命令
+
+```bash
+# 查看当前配置
+EnvSwitch config show
+
+# 安全修改数据目录
+EnvSwitch config set data_dir /new/path
+
+# 启用/禁用数据目录检查
+EnvSwitch config set enable_data_dir_check true
+
+# 快速迁移数据目录
+EnvSwitch migrate-datadir /new/path
+```
+
+#### 数据目录变更流程
+
+当检测到数据目录变更时，系统会提供三个选项：
+
+1. **取消更改** (推荐) - 保持现状，不进行任何更改
+2. **迁移数据** - 将所有数据安全迁移到新目录
+3. **强制更改** - 仅更改路径，原数据保持不变
+
+**迁移过程**：
+```bash
+⚠️  危险操作: 检测到数据目录变更!
+   当前数据目录: data (包含项目数据)
+   新数据目录:   new-data
+
+🔥 警告: 更改数据目录将导致无法访问当前的所有项目和环境数据!
+
+可选操作:
+  1. 取消更改 (推荐)
+  2. 迁移数据到新目录
+  3. 强制更改 (当前数据将丢失)
+
+请选择操作 (1/2/3): 2
+
+🔄 开始迁移数据...
+📦 创建数据备份到: data_backup_20250729_150405
+📁 迁移数据...
+✅ 数据迁移完成!
 ```
 
 ## 🔒 安全考虑
@@ -267,6 +359,14 @@ EnvSwitch/
 - 权限检查，确保有足够权限操作目标文件
 - 原子操作，确保文件替换的原子性
 - 自动备份，切换前备份原文件
+
+### 数据保护安全性
+- **数据目录保护**：防止意外修改导致数据丢失
+- **变更检测**：自动检测配置文件中的危险变更
+- **交互确认**：重要操作需要用户明确确认
+- **自动备份**：数据迁移前自动创建完整备份
+- **历史追踪**：记录所有数据目录变更历史
+- **回滚支持**：支持从备份恢复数据
 
 ### Web服务安全性
 - CSRF防护
