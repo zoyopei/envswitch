@@ -1,4 +1,4 @@
-﻿# envswitch - 环境管理切换工具
+# envswitch - 环境管理切换工具
 
 [![CI](https://github.com/zoyopei/envswitch/workflows/CI/badge.svg)](https://github.com/zoyopei/envswitch/actions/workflows/ci.yml)
 [![Release](https://github.com/zoyopei/envswitch/workflows/Release/badge.svg)](https://github.com/zoyopei/envswitch/actions/workflows/release.yml)

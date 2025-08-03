@@ -253,3 +253,8 @@ func (m *Manager) ListEnvironments(projectIdentifier string) ([]internal.Environ
 
 	return project.Environments, nil
 }
+
+// GetStorage 获取存储实例（用于访问应用状态）
+func (m *Manager) GetStorage() *storage.Storage {
+	return m.storage
+}

@@ -5,6 +5,7 @@ import (
 	"os"
 	"text/tabwriter"
 
+	"github.com/zoyopei/envswitch/internal"
 	"github.com/zoyopei/envswitch/internal/config"
 	"github.com/zoyopei/envswitch/internal/project"
 
@@ -46,11 +47,26 @@ var projectListCmd = &cobra.Command{
 			return
 		}
 
+		// 获取当前应用状态
+		storage := manager.GetStorage()
+		appState, err := storage.LoadAppState()
+		if err != nil {
+			fmt.Printf("Warning: failed to load app state: %v\n", err)
+			appState = &internal.AppState{}
+		}
+
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 		_, _ = fmt.Fprintln(w, "NAME\tDESCRIPTION\tENVIRONMENTS\tCREATED\tUPDATED")
 
 		for _, p := range projects {
-			_, _ = fmt.Fprintf(w, "%s\t%s\t%d\t%s\t%s\n",
+			// 检查是否为当前项目
+			marker := ""
+			if appState.CurrentProject == p.Name || appState.CurrentProject == p.ID {
+				marker = "*"
+			}
+			
+			_, _ = fmt.Fprintf(w, "%s%s\t%s\t%d\t%s\t%s\n",
+				marker,
 				p.Name,
 				truncateString(p.Description, 30),
 				len(p.Environments),
@@ -59,6 +75,9 @@ var projectListCmd = &cobra.Command{
 			)
 		}
 		_ = w.Flush()
+		
+		// 显示图例
+		fmt.Println("\n* = Current project")
 	},
 }
 

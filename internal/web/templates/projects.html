@@ -16,6 +16,12 @@
                 <a href="/">首页</a>
                 <a href="/projects" class="active">项目管理</a>
                 <a href="/api/status">状态</a>
+                {{if .status.has_active_env}}
+                <div class="current-env">
+                    <span class="current-project">{{.status.current_project}}</span>
+                    <span class="current-env-name">{{.status.current_environment}}</span>
+                </div>
+                {{end}}
             </div>
         </nav>
     </header>

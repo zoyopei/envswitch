@@ -510,6 +510,33 @@ input:focus, textarea:focus, select:focus {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+/* 当前环境状态显示 */
+.current-env {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.current-project {
+    color: #3498db;
+    font-weight: 600;
+}
+
+.current-env-name {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+.current-env::before {
+    content: "▶";
+    color: #f39c12;
+    font-size: 0.8rem;
+}
+
 /* 工具类 */
 .text-center { text-align: center; }
 .text-right { text-align: right; }

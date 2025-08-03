@@ -82,6 +82,20 @@ var envListCmd = &cobra.Command{
 			return
 		}
 
+		// 获取当前应用状态
+		storage := manager.GetStorage()
+		appState, err := storage.LoadAppState()
+		if err != nil {
+			fmt.Printf("Warning: failed to load app state: %v\n", err)
+			appState = &internal.AppState{}
+		}
+
+		// 获取项目信息以检查当前项目
+		project, err := manager.GetProject(projectName)
+		if err != nil {
+			fmt.Printf("Warning: failed to get project info: %v\n", err)
+		}
+
 		fmt.Printf("Environments in project '%s':\n\n", projectName)
 
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
@@ -98,7 +112,15 @@ var envListCmd = &cobra.Command{
 				lastSwitch = env.LastSwitchAt.Format("2006-01-02 15:04")
 			}
 
-			_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%d\t%s\t%s\n",
+			// 检查是否为当前环境
+			marker := ""
+			if project != nil && (appState.CurrentProject == project.Name || appState.CurrentProject == project.ID) &&
+				(appState.CurrentEnvironment == env.Name || appState.CurrentEnvironment == env.ID) {
+				marker = "*"
+			}
+
+			_, _ = fmt.Fprintf(w, "%s%s\t%s\t%s\t%d\t%s\t%s\n",
+				marker,
 				env.Name,
 				truncateString(env.Description, 25),
 				tagsStr,
@@ -108,6 +130,9 @@ var envListCmd = &cobra.Command{
 			)
 		}
 		_ = w.Flush()
+		
+		// 显示图例
+		fmt.Println("\n* = Current environment")
 	},
 }
 
