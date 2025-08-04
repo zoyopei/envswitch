@@ -1,14 +1,15 @@
 package file
 
 import (
-	"envswitch/internal"
-	"envswitch/internal/config"
-	"envswitch/internal/storage"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/storage"
 
 	"github.com/google/uuid"
 )
@@ -39,23 +40,25 @@ func (m *Manager) SwitchEnvironment(projectID, environmentID string) error {
 		return fmt.Errorf("failed to load project: %w", err)
 	}
 
-	var environment *internal.Environment
-	for _, env := range project.Environments {
+	var envIndex = -1
+	for i, env := range project.Environments {
 		if env.ID == environmentID {
-			environment = &env
+			envIndex = i
 			break
 		}
 	}
 
-	if environment == nil {
+	if envIndex == -1 {
 		return fmt.Errorf("environment not found: %s", environmentID)
 	}
+
+	environment := &project.Environments[envIndex]
 
 	// 执行文件切换
 	for _, fileConfig := range environment.Files {
 		if err := m.switchFile(&fileConfig); err != nil {
 			// 如果切换失败，尝试回滚
-			m.RollbackFromBackup(backupID)
+			_ = m.RollbackFromBackup(backupID)
 			return fmt.Errorf("failed to switch file %s: %w", fileConfig.TargetPath, err)
 		}
 	}
@@ -111,13 +114,13 @@ func (m *Manager) copyFile(src, dst string) error {
 	if err != nil {
 		return err
 	}
-	defer sourceFile.Close()
+	defer func() { _ = sourceFile.Close() }()
 
 	destFile, err := os.Create(dst)
 	if err != nil {
 		return err
 	}
-	defer destFile.Close()
+	defer func() { _ = destFile.Close() }()
 
 	_, err = io.Copy(destFile, sourceFile)
 	if err != nil {

@@ -1,7 +1,6 @@
 package test
 
 import (
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
@@ -16,8 +15,8 @@ func TestCLIEndToEnd(t *testing.T) {
 	// 设置测试环境
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
-	os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(originalDir) }()
+	_ = os.Chdir(tempDir)
 
 	// 构建可执行文件（从项目根目录构建）
 	projectRoot := filepath.Dir(originalDir)
@@ -109,7 +108,7 @@ func TestCLIEndToEnd(t *testing.T) {
 		}
 
 		sourceFile := filepath.Join(sourceDir, "dev.json")
-		err = ioutil.WriteFile(sourceFile, []byte(`{"env": "development", "debug": true}`), 0644)
+		err = os.WriteFile(sourceFile, []byte(`{"env": "development", "debug": true}`), 0644)
 		if err != nil {
 			t.Fatalf("Failed to create source file: %v", err)
 		}
@@ -154,7 +153,7 @@ func TestCLIEndToEnd(t *testing.T) {
 		}
 
 		// 验证文件内容
-		content, err := ioutil.ReadFile(targetFile)
+		content, err := os.ReadFile(targetFile)
 		if err != nil {
 			t.Fatalf("Failed to read target file: %v", err)
 		}
@@ -224,8 +223,8 @@ func TestWebServerEndToEnd(t *testing.T) {
 	// 设置测试环境
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
-	os.Chdir(tempDir)
+	defer func() { _ = os.Chdir(originalDir) }()
+	_ = os.Chdir(tempDir)
 
 	// 构建可执行文件（从项目根目录构建）
 	projectRoot := filepath.Dir(originalDir)
@@ -248,7 +247,7 @@ func TestWebServerEndToEnd(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to start server: %v", err)
 	}
-	defer cmd.Process.Kill()
+	defer func() { _ = cmd.Process.Kill() }()
 
 	// 等待服务器启动
 	time.Sleep(2 * time.Second)
@@ -259,7 +258,7 @@ func TestWebServerEndToEnd(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to connect to server: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() { _ = resp.Body.Close() }()
 
 		if resp.StatusCode != http.StatusOK {
 			t.Errorf("Expected status code 200, got %d", resp.StatusCode)
@@ -272,7 +271,7 @@ func TestWebServerEndToEnd(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to connect to API: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() { _ = resp.Body.Close() }()
 
 		if resp.StatusCode != http.StatusOK {
 			t.Errorf("Expected status code 200, got %d", resp.StatusCode)
@@ -305,27 +304,27 @@ func TestFileOperations(t *testing.T) {
 	devContent := `{"env": "development", "debug": true, "port": 3000}`
 	prodContent := `{"env": "production", "debug": false, "port": 80}`
 
-	err = ioutil.WriteFile(devConfig, []byte(devContent), 0644)
+	err = os.WriteFile(devConfig, []byte(devContent), 0644)
 	if err != nil {
 		t.Fatalf("Failed to write dev config: %v", err)
 	}
 
-	err = ioutil.WriteFile(prodConfig, []byte(prodContent), 0644)
+	err = os.WriteFile(prodConfig, []byte(prodContent), 0644)
 	if err != nil {
 		t.Fatalf("Failed to write prod config: %v", err)
 	}
 
 	// 创建初始目标文件
 	initialContent := `{"env": "initial", "debug": false}`
-	err = ioutil.WriteFile(targetConfig, []byte(initialContent), 0644)
+	err = os.WriteFile(targetConfig, []byte(initialContent), 0644)
 	if err != nil {
 		t.Fatalf("Failed to write initial config: %v", err)
 	}
 
 	t.Run("CompleteWorkflow", func(t *testing.T) {
 		originalDir, _ := os.Getwd()
-		defer os.Chdir(originalDir)
-		os.Chdir(tempDir)
+		defer func() { _ = os.Chdir(originalDir) }()
+		_ = os.Chdir(tempDir)
 
 		// 构建二进制文件（从项目根目录构建）
 		projectRoot := filepath.Dir(originalDir)
@@ -383,7 +382,7 @@ func TestFileOperations(t *testing.T) {
 		}
 
 		// 验证文件内容
-		content, err := ioutil.ReadFile(targetConfig)
+		content, err := os.ReadFile(targetConfig)
 		if err != nil {
 			t.Fatalf("Failed to read target config: %v", err)
 		}
@@ -400,7 +399,7 @@ func TestFileOperations(t *testing.T) {
 		}
 
 		// 验证文件内容
-		content, err = ioutil.ReadFile(targetConfig)
+		content, err = os.ReadFile(targetConfig)
 		if err != nil {
 			t.Fatalf("Failed to read target config: %v", err)
 		}
@@ -417,7 +416,7 @@ func TestFileOperations(t *testing.T) {
 		}
 
 		// 验证回滚后的内容
-		content, err = ioutil.ReadFile(targetConfig)
+		content, err = os.ReadFile(targetConfig)
 		if err != nil {
 			t.Fatalf("Failed to read target config after rollback: %v", err)
 		}

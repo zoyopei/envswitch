@@ -1,28 +1,41 @@
 package config
 
 import (
-	"envswitch/internal"
 	"os"
 	"testing"
+
+	"github.com/zoyopei/envswitch/internal"
 )
 
 func TestInitConfig(t *testing.T) {
 	// 创建临时目录用于测试
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil
 
-	// 测试初始化配置
-	err := InitConfig()
+	// 在当前目录创建一个 config.json 文件，确保使用默认配置
+	defaultConfig := &internal.Config{
+		DataDir:   DefaultDataDir,
+		BackupDir: DefaultBackupDir,
+		WebPort:   DefaultWebPort,
+	}
+	err := SaveConfig(defaultConfig)
+	if err != nil {
+		t.Fatalf("Failed to save default config: %v", err)
+	}
+
+	// 重置全局配置，然后测试初始化
+	globalConfig = nil
+	err = InitConfig()
 	if err != nil {
 		t.Fatalf("InitConfig() error = %v", err)
 	}
@@ -48,13 +61,13 @@ func TestInitConfig(t *testing.T) {
 func TestLoadAndSaveConfig(t *testing.T) {
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil
@@ -97,13 +110,13 @@ func TestLoadAndSaveConfig(t *testing.T) {
 func TestUpdateConfig(t *testing.T) {
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil
@@ -138,13 +151,13 @@ func TestUpdateConfig(t *testing.T) {
 func TestSetDefaultProject(t *testing.T) {
 	tempDir := t.TempDir()
 	originalDir, _ := os.Getwd()
-	defer os.Chdir(originalDir)
+	defer func() { _ = os.Chdir(originalDir) }()
 
 	// 保存原始配置
 	originalConfig := globalConfig
 	defer func() { globalConfig = originalConfig }()
 
-	os.Chdir(tempDir)
+	_ = os.Chdir(tempDir)
 
 	// 重置全局配置
 	globalConfig = nil

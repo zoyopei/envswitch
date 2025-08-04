@@ -37,10 +37,13 @@ type FileConfig struct {
 
 // Config 全局配置结构
 type Config struct {
-	DataDir        string `json:"data_dir"`
-	BackupDir      string `json:"backup_dir"`
-	WebPort        int    `json:"web_port"`
-	DefaultProject string `json:"default_project"`
+	DataDir            string   `json:"data_dir"`
+	BackupDir          string   `json:"backup_dir"`
+	WebPort            int      `json:"web_port"`
+	DefaultProject     string   `json:"default_project"`
+	OriginalDataDir    string   `json:"original_data_dir,omitempty"` // 原始数据目录路径
+	DataDirHistory     []string `json:"data_dir_history,omitempty"`  // 历史数据目录记录
+	EnableDataDirCheck bool     `json:"enable_data_dir_check"`       // 是否启用数据目录变更检查
 }
 
 // AppState 应用状态

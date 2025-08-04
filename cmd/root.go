@@ -10,13 +10,13 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "envswitch",
 	Short: "Environment management and switching tool",
-	Long: `EnvSwitch is a CLI tool for managing multiple projects and environments.
+	Long: `envswitch is a CLI tool for managing multiple projects and environments.
 It allows you to quickly switch between different environment configurations
 by replacing files in your system according to predefined configurations.
 
-Complete documentation is available at https://github.com/your-org/envswitch`,
-	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+Complete documentation is available at https://github.com/zoyopei/envswitch`,
+	Run: func(cmd *cobra.Command, _ []string) {
+		_ = cmd.Help()
 	},
 }
 

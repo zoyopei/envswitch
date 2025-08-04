@@ -1,8 +1,9 @@
 package web
 
 import (
-	"envswitch/internal"
 	"net/http"
+
+	"github.com/zoyopei/envswitch/internal"
 
 	"github.com/gin-gonic/gin"
 )

@@ -157,7 +157,7 @@ verify_installation() {
 
 # Main installation process
 main() {
-    echo "EnvSwitch Installer"
+    echo "envswitch Installer"
     echo "==================="
     echo
     
@@ -191,7 +191,7 @@ main() {
 # Handle script arguments
 case "${1:-}" in
     --help|-h)
-        echo "EnvSwitch Installer"
+        echo "envswitch Installer"
         echo
         echo "Usage: $0 [OPTIONS]"
         echo

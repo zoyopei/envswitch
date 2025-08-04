@@ -16,6 +16,12 @@
                 <a href="/">首页</a>
                 <a href="/projects">项目管理</a>
                 <a href="/api/status">状态</a>
+                {{if .status.has_active_env}}
+                <div class="current-env">
+                    <span class="current-project">{{.status.current_project}}</span>
+                    <span class="current-env-name">{{.status.current_environment}}</span>
+                </div>
+                {{end}}
             </div>
         </nav>
     </header>
@@ -74,7 +80,7 @@
                         <div class="env-header">
                             <h4>{{.Name}}</h4>
                             <div class="env-status">
-                                {{if .LastSwitchAt}}
+                                {{if eq .ID $.current_env}}
                                     <span class="status-active">激活</span>
                                 {{else}}
                                     <span class="status-inactive">未激活</span>

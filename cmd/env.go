@@ -1,14 +1,15 @@
 package cmd
 
 import (
-	"envswitch/internal"
-	"envswitch/internal/config"
-	"envswitch/internal/file"
-	"envswitch/internal/project"
 	"fmt"
 	"os"
 	"strings"
 	"text/tabwriter"
+
+	"github.com/zoyopei/envswitch/internal"
+	"github.com/zoyopei/envswitch/internal/config"
+	"github.com/zoyopei/envswitch/internal/file"
+	"github.com/zoyopei/envswitch/internal/project"
 
 	"github.com/spf13/cobra"
 )
@@ -81,10 +82,24 @@ var envListCmd = &cobra.Command{
 			return
 		}
 
+		// 获取当前应用状态
+		storage := manager.GetStorage()
+		appState, err := storage.LoadAppState()
+		if err != nil {
+			fmt.Printf("Warning: failed to load app state: %v\n", err)
+			appState = &internal.AppState{}
+		}
+
+		// 获取项目信息以检查当前项目
+		project, err := manager.GetProject(projectName)
+		if err != nil {
+			fmt.Printf("Warning: failed to get project info: %v\n", err)
+		}
+
 		fmt.Printf("Environments in project '%s':\n\n", projectName)
 
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-		fmt.Fprintln(w, "NAME\tDESCRIPTION\tTAGS\tFILES\tCREATED\tLAST SWITCH")
+		_, _ = fmt.Fprintln(w, "NAME\tDESCRIPTION\tTAGS\tFILES\tCREATED\tLAST SWITCH")
 
 		for _, env := range environments {
 			tagsStr := strings.Join(env.Tags, ", ")
@@ -97,7 +112,15 @@ var envListCmd = &cobra.Command{
 				lastSwitch = env.LastSwitchAt.Format("2006-01-02 15:04")
 			}
 
-			fmt.Fprintf(w, "%s\t%s\t%s\t%d\t%s\t%s\n",
+			// 检查是否为当前环境
+			marker := ""
+			if project != nil && (appState.CurrentProject == project.Name || appState.CurrentProject == project.ID) &&
+				(appState.CurrentEnvironment == env.Name || appState.CurrentEnvironment == env.ID) {
+				marker = "*"
+			}
+
+			_, _ = fmt.Fprintf(w, "%s%s\t%s\t%s\t%d\t%s\t%s\n",
+				marker,
 				env.Name,
 				truncateString(env.Description, 25),
 				tagsStr,
@@ -106,7 +129,10 @@ var envListCmd = &cobra.Command{
 				lastSwitch,
 			)
 		}
-		w.Flush()
+		_ = w.Flush()
+		
+		// 显示图例
+		fmt.Println("\n* = Current environment")
 	},
 }
 
@@ -114,7 +140,7 @@ var envShowCmd = &cobra.Command{
 	Use:   "show <project> <env-name>",
 	Short: "Show environment details",
 	Args:  cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, args []string) {
 		projectName := args[0]
 		envName := args[1]
 
@@ -140,16 +166,16 @@ var envShowCmd = &cobra.Command{
 		if len(env.Files) > 0 {
 			fmt.Println("\nFile Configurations:")
 			w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-			fmt.Fprintln(w, "  SOURCE\tTARGET\tDESCRIPTION")
+			_, _ = fmt.Fprintln(w, "  SOURCE\tTARGET\tDESCRIPTION")
 
 			for _, file := range env.Files {
-				fmt.Fprintf(w, "  %s\t%s\t%s\n",
+				_, _ = fmt.Fprintf(w, "  %s\t%s\t%s\n",
 					file.SourcePath,
 					file.TargetPath,
 					file.Description,
 				)
 			}
-			w.Flush()
+			_ = w.Flush()
 		}
 	},
 }
@@ -213,7 +239,7 @@ var envDeleteCmd = &cobra.Command{
 			fmt.Printf("Are you sure you want to delete environment '%s' from project '%s'?\n", env.Name, projectName)
 			fmt.Print("Type 'yes' to confirm: ")
 			var confirmation string
-			fmt.Scanln(&confirmation)
+			_, _ = fmt.Scanln(&confirmation)
 			if confirmation != "yes" {
 				fmt.Println("Operation cancelled")
 				return
@@ -261,7 +287,7 @@ var envRemoveFileCmd = &cobra.Command{
 	Use:   "remove-file <project> <env-name> <file-id>",
 	Short: "Remove file configuration from environment",
 	Args:  cobra.ExactArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, args []string) {
 		projectName := args[0]
 		envName := args[1]
 		fileID := args[2]

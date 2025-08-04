@@ -59,4 +59,11 @@ coverage.html
 .env.local
 
 # Documentation build
-docs/_build/ 
+docs/_build/
+
+# Claude Code related files and directories
+.claude/
+CLAUDE.md
+*.claude
+.envswitch/
+.envswitch_* 
