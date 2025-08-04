@@ -33,7 +33,7 @@ jobs:
         
     - name: Set up Go (for Go analysis)
       if: matrix.language == 'go'
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
         go-version: 1.21.x
 
